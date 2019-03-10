@@ -1,7 +1,8 @@
 new Vue({
     el: '#trainApp',
     data: {
-        trainSchedules: []
+        trainSchedules: [],
+        delete_id: ''
 
     },
     methods: {
@@ -29,13 +30,37 @@ new Vue({
                     response => {
                         //this.users = response.data;
                         //this.trainSchedules = response.data
-                        temp=response.data;
+                        temp = response.data;
                         return temp.name
                     }
                 )
                 .catch(
                     error => console.log(error)
                 )
+        },
+        deleteWindow: function (id) {
+            console.log(id),
+                this.delete_id = id;
+            $("#del-modal").modal('show');
+        },
+        confurmDelete: function () {
+            console.log(this.delete_id)
+            var data = new FormData();
+            data.append('del', this.id);
+            axios.get('/api/delstation', {
+                    params:
+                        {
+                            id: this.delete_id
+                        }
+                }
+            )
+                .then(res => {
+
+                })
+                .catch(error => {
+
+                });
+            $("#del-modal").modal('hide');
         }
 
     },

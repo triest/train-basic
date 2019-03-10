@@ -100,6 +100,18 @@ class ApiController extends Controller
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
         return $station;
+    }
+
+    public function actionDelstation($id)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $trainSchedule = TrainSchedule::find()->where(['=', 'id', $id])->one();
+        if ($trainSchedule != null) {
+            $trainSchedule->delete();
+            return ["ok"];
+        }else{
+            return ["fail"];
+        }
 
     }
 
