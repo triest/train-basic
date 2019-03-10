@@ -18,10 +18,10 @@ use Yii;
  * @property int $transport_company_id
  * @property int $schedule_id
  *
- * @property Stations $arrivalStation
- * @property Companies $transportCompany
+ * @property Station $arrivalStation
+ * @property Company $transportCompany
  * @property Schedule $schedule
- * @property Stations $departuteStation
+ * @property Station $departuteStation
  */
 class TrainSchedule extends \yii\db\ActiveRecord
 {
@@ -43,10 +43,10 @@ class TrainSchedule extends \yii\db\ActiveRecord
             [['departut_time', 'arrival_time', 'travel_time'], 'safe'],
             [['ticket_price'], 'number'],
             [['name'], 'string', 'max' => 255],
-            [['arrival_station_id'], 'exist', 'skipOnError' => true, 'targetClass' => Stations::className(), 'targetAttribute' => ['arrival_station_id' => 'id']],
-            [['transport_company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Companies::className(), 'targetAttribute' => ['transport_company_id' => 'id']],
+            [['arrival_station_id'], 'exist', 'skipOnError' => true, 'targetClass' => Station::className(), 'targetAttribute' => ['arrival_station_id' => 'id']],
+            [['transport_company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::className(), 'targetAttribute' => ['transport_company_id' => 'id']],
             [['schedule_id'], 'exist', 'skipOnError' => true, 'targetClass' => Schedule::className(), 'targetAttribute' => ['schedule_id' => 'id']],
-            [['departute_station_id'], 'exist', 'skipOnError' => true, 'targetClass' => Stations::className(), 'targetAttribute' => ['departute_station_id' => 'id']],
+            [['departute_station_id'], 'exist', 'skipOnError' => true, 'targetClass' => Station::className(), 'targetAttribute' => ['departute_station_id' => 'id']],
         ];
     }
 
@@ -74,7 +74,7 @@ class TrainSchedule extends \yii\db\ActiveRecord
      */
     public function getArrivalStation()
     {
-        return $this->hasOne(Stations::className(), ['id' => 'arrival_station_id']);
+        return $this->hasOne(Station::className(), ['id' => 'arrival_station_id']);
     }
 
     /**
@@ -82,7 +82,7 @@ class TrainSchedule extends \yii\db\ActiveRecord
      */
     public function getTransportCompany()
     {
-        return $this->hasOne(Companies::className(), ['id' => 'transport_company_id']);
+        return $this->hasOne(Company::className(), ['id' => 'transport_company_id']);
     }
 
     /**
@@ -98,6 +98,6 @@ class TrainSchedule extends \yii\db\ActiveRecord
      */
     public function getDepartuteStation()
     {
-        return $this->hasOne(Stations::className(), ['id' => 'departute_station_id']);
+        return $this->hasOne(Station::className(), ['id' => 'departute_station_id']);
     }
 }
