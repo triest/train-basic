@@ -26,7 +26,8 @@
 
         "codeception/base": "~2.3.0",
         "codeception/verify": "~0.4.0",
-        "codeception/specify": "~0.4.6"
+        "codeception/specify": "~0.4.6",
+        "symfony/var-dumper": "^4.2"
     },
     "config": {
         "process-timeout": 1800,

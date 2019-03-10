@@ -14,11 +14,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= Html::dropDownList('arrival_station', [], $arrivalStation, ['class' => 'form-control', 'multiple' => true,['options' => ['selected'=>true]] ]) ?>
+    <?= Html::dropDownList('arrival_station', [], $arrivalStation, ['class' => 'form-control', 'multiple' => false,['options' => ['selected'=>true]] ]) ?>
 
-    <?= Html::dropDownList('departure_station', [], $departureStation, ['class' => 'form-control', 'multiple' => true,['options' => ['selected'=>true]] ]) ?>
+    <?= Html::dropDownList('departure_station', [], $departureStation, ['class' => 'form-control', 'multiple' => false,['options' => ['selected'=>true]] ]) ?>
 
-    <?= Html::dropDownList('transportCompyny', [], $transportCompyny, ['class' => 'form-control', 'multiple' => true,['options' => ['selected'=>true]] ]) ?>
+    <?= Html::dropDownList('transportCompyny', [], $transportCompyny, ['class' => 'form-control', 'multiple' => false,['options' => ['selected'=>true]] ]) ?>
 
     <?= $form->field($model, 'departut_time')->textInput() ?>
 

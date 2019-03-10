@@ -55,7 +55,7 @@ class Station extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTrainSchedules0()
+    public function getDerartionSchedules()
     {
         return $this->hasMany(TrainSchedule::className(), ['departute_station_id' => 'id']);
     }

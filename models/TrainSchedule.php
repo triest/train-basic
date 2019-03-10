@@ -43,10 +43,34 @@ class TrainSchedule extends \yii\db\ActiveRecord
             [['departut_time', 'arrival_time', 'travel_time'], 'safe'],
             [['ticket_price'], 'number'],
             [['name'], 'string', 'max' => 255],
-            [['arrival_station_id'], 'exist', 'skipOnError' => true, 'targetClass' => Station::className(), 'targetAttribute' => ['arrival_station_id' => 'id']],
-            [['transport_company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::className(), 'targetAttribute' => ['transport_company_id' => 'id']],
-            [['schedule_id'], 'exist', 'skipOnError' => true, 'targetClass' => Schedule::className(), 'targetAttribute' => ['schedule_id' => 'id']],
-            [['departute_station_id'], 'exist', 'skipOnError' => true, 'targetClass' => Station::className(), 'targetAttribute' => ['departute_station_id' => 'id']],
+            [
+                ['arrival_station_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Station::className(),
+                'targetAttribute' => ['arrival_station_id' => 'id'],
+            ],
+            [
+                ['transport_company_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Company::className(),
+                'targetAttribute' => ['transport_company_id' => 'id'],
+            ],
+            [
+                ['schedule_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Schedule::className(),
+                'targetAttribute' => ['schedule_id' => 'id'],
+            ],
+            [
+                ['departute_station_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Station::className(),
+                'targetAttribute' => ['departute_station_id' => 'id'],
+            ],
         ];
     }
 
@@ -99,5 +123,29 @@ class TrainSchedule extends \yii\db\ActiveRecord
     public function getDepartuteStation()
     {
         return $this->hasOne(Station::className(), ['id' => 'departute_station_id']);
+    }
+
+    public function saveTrainSchedule()
+    {
+
+    }
+
+    public function saveDepartion($station)
+    {
+        $this->departute_station_id = $station->id;
+        $this->save(false);
+        //     $this->link('departute_station_id', $departion); //соединяем
+    }
+
+    public function saveArrived($station)
+    {
+        $this->arrival_station_id = $station->id;
+        $this->save(false);
+    }
+
+    public function saveCompany($temp)
+    {
+        $this->transport_company_id = $temp->id;
+        $this->save(false);
     }
 }
