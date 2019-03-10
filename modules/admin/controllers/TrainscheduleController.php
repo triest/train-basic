@@ -4,15 +4,15 @@ namespace app\modules\admin\controllers;
 
 use Yii;
 use app\models\TrainSchedule;
-use app\models\TrainScheduleSearch;
+use app\models\TrainscheduleSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * TrainScheduleController implements the CRUD actions for TrainSchedule model.
+ * TrainscheduleController implements the CRUD actions for TrainSchedule model.
  */
-class TrainScheduleController extends Controller
+class TrainscheduleController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -35,7 +35,7 @@ class TrainScheduleController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new TrainScheduleSearch();
+        $searchModel = new TrainscheduleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

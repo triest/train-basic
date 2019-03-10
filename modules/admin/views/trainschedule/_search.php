@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\TrainScheduleSearch */
+/* @var $model app\models\TrainscheduleSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

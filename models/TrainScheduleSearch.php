@@ -7,9 +7,9 @@ use yii\data\ActiveDataProvider;
 use app\models\TrainSchedule;
 
 /**
- * TrainScheduleSearch represents the model behind the search form of `app\models\TrainSchedule`.
+ * TrainscheduleSearch represents the model behind the search form of `app\models\TrainSchedule`.
  */
-class TrainScheduleSearch extends TrainSchedule
+class TrainscheduleSearch extends TrainSchedule
 {
     /**
      * {@inheritdoc}
