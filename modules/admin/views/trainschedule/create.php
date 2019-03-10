@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\TrainSchedule */
 
-$this->title = 'Create Train Schedule';
+$this->title = 'Create Train Schedule2';
 $this->params['breadcrumbs'][] = ['label' => 'Train Schedules', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,6 +15,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'arrivalStation'=>$arrivalStation,
+        'departureStation'=>$departuteStation,
+        'transportCompyny'=>$transportCompyny,
+        'Schedule'=>$Schedule
     ]) ?>
 
 </div>

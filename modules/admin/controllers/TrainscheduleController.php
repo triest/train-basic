@@ -2,9 +2,13 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\Company;
+use app\models\Schedule;
+use app\models\Station;
 use Yii;
 use app\models\TrainSchedule;
 use app\models\TrainscheduleSearch;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -70,8 +74,17 @@ class TrainscheduleController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
+        $Station  = ArrayHelper::map(Station::find()->all(), 'id', 'name');
+        $Compynyes= ArrayHelper::map(Company::find()->all(), 'id', 'name');
+        $Schedule=ArrayHelper::map(Schedule::find()->all(), 'id', 'days');
+
         return $this->render('create', [
             'model' => $model,
+            'departuteStation'=>$Station,
+            'arrivalStation'=>$Station,
+            'transportCompyny'=>$Compynyes,
+            'Schedule'=>$Schedule
+
         ]);
     }
 
@@ -86,12 +99,22 @@ class TrainscheduleController extends Controller
     {
         $model = $this->findModel($id);
 
+
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
+        $Station  = ArrayHelper::map(Station::find()->all(), 'id', 'name');
+        $Compynyes= ArrayHelper::map(Company::find()->all(), 'id', 'name');
+        $Schedule=ArrayHelper::map(Schedule::find()->all(), 'id', 'days');
+
         return $this->render('update', [
             'model' => $model,
+            'departuteStation'=>$Station,
+            'arrivalStation'=>$Station,
+            'transportCompyny'=>$Compynyes,
+            'Schedule'=>$Schedule
         ]);
     }
 
