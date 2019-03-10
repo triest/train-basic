@@ -101,6 +101,8 @@ class TrainSchedule extends \yii\db\ActiveRecord
         return $this->hasOne(Station::className(), ['id' => 'arrival_station_id']);
     }
 
+
+
     /**
      * @return \yii\db\ActiveQuery
      */

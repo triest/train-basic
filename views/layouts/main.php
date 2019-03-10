@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use app\widgets\Alert;
@@ -24,6 +25,12 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
+
+<!--enable Vue -->
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<!--axios -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <?php $this->beginBody() ?>
 
 <div class="wrap">
@@ -42,17 +49,17 @@ AppAsset::register($this);
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+            ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
                 '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
+                .Html::beginForm(['/site/logout'], 'post')
+                .Html::submitButton(
+                    'Logout ('.Yii::$app->user->identity->username.')',
                     ['class' => 'btn btn-link logout']
                 )
-                . Html::endForm()
-                . '</li>'
-            )
+                .Html::endForm()
+                .'</li>'
+            ),
         ],
     ]);
     NavBar::end();
