@@ -61,9 +61,9 @@ class ApiController extends Controller
 
     public function actionIndex()
     {
-     /*   $trainsTchedule = TrainSchedule::find()
-            ->with('ArrivalStation')
-            ->all();*/
+        /*   $trainsTchedule = TrainSchedule::find()
+               ->with('ArrivalStation')
+               ->all();*/
 
         /*    $trainsTchedule = TrainSchedule::find()
             ->select('train_schedule.*')
@@ -71,16 +71,20 @@ class ApiController extends Controller
             ->leftJoin('stations', '\'stations.id\'=\'train_schedule.arrival_station_id\'')
             ->all();*/
         $connection = Yii::$app->getDb();
-        $command = $connection->createCommand("SELECT train.id,train.name,departion.id as 'departion_id',departion.name as 'departion_name'
-                            
-                          , arraval.id as 'arraval_id' ,
-                          arraval.name as 'arraval_name',
+        $command = $connection->createCommand("SELECT 
+                      train.id,train.name,
+                      departion.id as 'departion_id',
+                      departion.name as 'departion_name',
+                        train.departut_time as 'departut_time',
+                        train.arrival_time as 'arrival_time',
+                        train.ticket_price as 'ticket_price',
+                         arraval.id as 'arraval_id' ,
+                         arraval.name as 'arraval_name',
                           departion.name as 'departition' FROM train_schedule as train
 	                      left JOIN stations as departion on train.departute_station_id=departion.id
 	                      left JOIN stations as arraval on train.arrival_station_id=arraval.id
 	                      ");
         $result = $command->queryAll();
-
 
 
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;

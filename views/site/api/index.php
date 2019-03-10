@@ -41,13 +41,13 @@ $this->title = 'Trains';
                         </td>
 
                         <td>
-                           {{trainsScedule.arrival_station_id}}
+                           {{trainsScedule.departion_name}}
                         </td>
                         <td>
                             {{trainsScedule.departut_time }}
                         </td>
                         <td>
-                            {{trainsScedule.arrival_station_id}}
+                            {{trainsScedule.arraval_name}}
                         </td>
                         <td>
                             {{trainsScedule.arrival_time}}
