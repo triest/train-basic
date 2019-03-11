@@ -142,7 +142,8 @@ class ApiController extends Controller
         if ($request->isPost) {
             $model = new TrainSchedule();
             $post = $request->post();
-            dump($post);
+            $model->departut_time = $post["despatchtime"];
+            $model->arrival_time = $post["arrivaltime"];
             $name = $post["name"];
             $model->name = $name;
             $temp = Station::find()->where(['=', 'id', $post["departute_station"]])->one();

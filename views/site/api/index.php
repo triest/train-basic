@@ -65,6 +65,10 @@ $this->title = 'Trains';
                             <label>Цена билета:</label>
                             <input type="text" v-model="input_price" name="text">
                             <br>
+                            <label>Время отправления</label>
+                            <input type="time" v-model="despatchtime">
+                            <label>Время прибытия</label>
+                            <input type="time" v-model="arrivaltime">
                             <button type="button" class="btn btn-secondary" v-on:click="save">Создать</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
                         </div>

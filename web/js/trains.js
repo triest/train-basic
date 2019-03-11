@@ -10,7 +10,9 @@ new Vue({
         selected_arrival_station: '',
         input_price: '',
         transporters: '',
-        selected_transporters: ''
+        selected_transporters: '',
+        despatchtime: '',
+        arrivaltime: '',
     },
     methods: {
         getSchedule: function () {
@@ -109,6 +111,8 @@ new Vue({
             data.append('arrival_station', this.selected_arrival_station);
             data.append('transportCompyny', this.selected_transporters);
             data.append('price', this.input_price);
+            data.append('despatchtime', this.despatchtime);
+            data.append('arrivaltime', this.arrivaltime)
 
             window.axios.defaults.headers.common = {
                 'X-Requested-With': 'XMLHttpRequest',
