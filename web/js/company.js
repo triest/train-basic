@@ -54,7 +54,7 @@ new Vue({
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
 
-            axios.post('/api/createcompany',
+            axios.post('/company/create',
                 data,
                 {
                     headers: {
@@ -67,7 +67,7 @@ new Vue({
                 })
                 .catch(error => {
 
-                })
+                });
             this.get();
         },
         createWindow: function () {

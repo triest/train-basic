@@ -43,7 +43,8 @@ $this->title = 'Company';
                             <input type="text" v-model="name" name="text">
                             <br>
 
-
+                            <button type="button" class="btn btn-secondary" v-on:click="save">Создать</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
                         </div>
 
 

@@ -107,7 +107,7 @@ $this->title = 'Stations';
                             {{item.days}}
                         </td>
                         <td>
-                            <button class="btn btn-danger" v-on:click="editWindow(item)">Редактирвать</button>
+                            <button class="btn btn-primary" v-on:click="editWindow(item)">Редактирвать</button>
                         </td>
                         <td>
                             <button class="btn btn-danger" v-on:click="deleteWindow(item.id)">Удалить</button>

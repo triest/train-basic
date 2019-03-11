@@ -19,7 +19,7 @@ new Vue({
         shedule_id: ''
     },
     methods: {
-        getSchedule: function () {
+        get: function () {
             this.trainSchedules = null;
             axios.get('/api')
                 .then(
@@ -74,7 +74,7 @@ new Vue({
 
                 });
             $("#del-modal").modal('hide');
-            this.getSchedule();
+            this.get();
         },
         createWindow: function () {
             //получаем станции:
@@ -137,7 +137,7 @@ new Vue({
                 .catch(error => {
 
                 })
-            this.getSchedule();
+            this.get();
         },
         edit: function () {
             var data = new FormData();
@@ -172,7 +172,7 @@ new Vue({
                 .catch(error => {
 
                 })
-            this.getSchedule();
+            this.get();
 
 
         },
@@ -211,7 +211,7 @@ new Vue({
     },
     computed: {},
     beforeMount() {
-        this.getSchedule()
+        this.get()
     },
 
 });

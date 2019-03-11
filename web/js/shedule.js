@@ -18,9 +18,9 @@ new Vue({
         name: ''
     },
     methods: {
-        getSchedule: function () {
+        get: function () {
             this.trainSchedules = null;
-            axios.get('/api/getshedule')
+            axios.get('/schedule', {})
                 .then(
                     response => {
                         //this.users = response.data;
@@ -59,7 +59,7 @@ new Vue({
             console.log(this.delete_id)
             var data = new FormData();
             data.append('del', this.id);
-            axios.get('/api/delshedule', {
+            axios.get('/schedule/delete', {
                     params:
                         {
                             id: this.delete_id
@@ -73,7 +73,7 @@ new Vue({
 
                 });
             $("#del-modal").modal('hide');
-            this.getSchedule();
+            this.get();
         },
         createWindow: function () {
             //получаем станции:
@@ -96,8 +96,10 @@ new Vue({
 
             $("#create-modal").modal('show');
         },
-        get: function () {
-
+        editWindow: function (item) {
+            this.name = item.name;
+            this.id = item.id;
+            $("#edit-modal").modal('show');
         },
         save: function () {
 
@@ -112,7 +114,7 @@ new Vue({
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
 
-            axios.post('/api/createshedule',
+            axios.post('/schedule/create',
                 data,
                 {
                     headers: {
@@ -125,7 +127,7 @@ new Vue({
                 })
                 .catch(error => {
 
-                })
+                });
             this.get();
 
 
@@ -134,7 +136,7 @@ new Vue({
     },
     computed: {},
     beforeMount() {
-        this.getSchedule()
+        this.get()
     },
 
 });
