@@ -19,7 +19,7 @@ $this->title = 'Stations';
 
                         </div>
                         <div class="modal-body">
-                            <b>Удалить станцию?</b>
+                            <b>Удалить расписаниеЫ?</b>
                         </div>
                         <button type="button" class="btn btn-secondary" v-on:click="confurmDelete">Yes</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
@@ -73,6 +73,21 @@ $this->title = 'Stations';
                 </div>
             </div>
 
+            <div id="edit-modal" class="modal fade">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+
+                        </div>
+                        <div class="modal-body">
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
             <button class="btn-primary" v-on:click="createWindow()">Созать расписание</button>
 
             <div class="row">
@@ -92,8 +107,13 @@ $this->title = 'Stations';
                             {{item.days}}
                         </td>
                         <td>
+                            <button class="btn btn-danger" v-on:click="editWindow(item)">Редактирвать</button>
+                        </td>
+                        <td>
                             <button class="btn btn-danger" v-on:click="deleteWindow(item.id)">Удалить</button>
                         </td>
+
+
                     </tr>
                     </tbody>
                 </table>

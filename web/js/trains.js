@@ -13,6 +13,9 @@ new Vue({
         selected_transporters: '',
         despatchtime: '',
         arrivaltime: '',
+        selected_price:'',
+        selected_transporter:'',
+        current_item:''
     },
     methods: {
         getSchedule: function () {
@@ -134,6 +137,41 @@ new Vue({
 
                 })
             this.getSchedule();
+        },
+        edit:function (item) {
+
+            this.current_item=item
+            $("#edit-modal").modal('show');
+
+        },
+        editWindow: function (item) {
+
+            this.name=item.name;
+            this.input_price=item.ticket_price;
+            this.despatchtime=item.departut_time;
+            this.arrivaltime=item.arrival_time;
+            this.selected_departute_station=item.departion_id;
+            this.selected_arrival_station=item.arraval_id;
+
+            axios.get('/api/getstations', {})
+                .then(response => {
+                    //  console.log(response.data)
+                    this.departute_station = response.data;
+                })
+                .catch(error => {
+
+                });
+            axios.get('/api/gettransporters', {})
+                .then(response => {
+                    //  console.log(response.data)
+                    this.transporters = response.data;
+                })
+                .catch(error => {
+
+                });
+
+
+            $("#edit-modal").modal('show');
         }
 
     },

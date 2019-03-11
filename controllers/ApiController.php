@@ -82,9 +82,12 @@ class ApiController extends Controller
                         train.ticket_price as 'ticket_price',
                          arraval.id as 'arraval_id' ,
                          arraval.name as 'arraval_name',
+                         company.id as 'company_id',
+                         company.name as 'company_name',
                           departion.name as 'departition' FROM train_schedule as train
 	                      left JOIN stations as departion on train.departute_station_id=departion.id
 	                      left JOIN stations as arraval on train.arrival_station_id=arraval.id
+	                      left join companies as company on company.id=train.transport_company_id
 	                      ");
         $result = $command->queryAll();
 
@@ -252,7 +255,6 @@ class ApiController extends Controller
         $request = Yii::$app->request;
         if ($request->isPost) {
             $request = $request->post();
-            dump($request);
             $shedule = new Schedule();
             $shedule->name = $request["name"];
             $shedule->days = $request["days"];
@@ -260,5 +262,20 @@ class ApiController extends Controller
         }
 
     }
+
+    public function actionDelshedule($id)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        $trainSchedule = Schedule::find()->where(['=', 'id', $id])->one();
+        if ($trainSchedule != null) {
+            $trainSchedule->delete();
+
+            return ["ok"];
+        } else {
+            return ["fail"];
+        }
+    }
+
 
 }
