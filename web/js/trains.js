@@ -93,7 +93,7 @@ new Vue({
 
             $("#create-modal").modal('show');
         },
-        getStations: function () {
+        get: function () {
 
         },
         save: function () {

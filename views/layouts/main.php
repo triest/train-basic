@@ -50,6 +50,7 @@ AppAsset::register($this);
             ['label' => 'Contact', 'url' => ['/site/contact']],
             ['label' => 'Api', 'url' => ['/site/api']],
             ['label' => 'Station', 'url' => ['/site/apistation']],
+            ['label' => 'Company', 'url' => ['/site/apicompany']],
 
             Yii::$app->user->isGuest ? (
             ['label' => 'Login', 'url' => ['/site/login']]

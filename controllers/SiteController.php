@@ -137,4 +137,9 @@ class SiteController extends Controller
     {
         return $this->render('api/station');
     }
+
+    public function actionApicompany()
+    {
+        return $this->render('api/company');
+    }
 }

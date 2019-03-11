@@ -1,7 +1,7 @@
 new Vue({
     el: '#stationApp',
     data: {
-        stations: [],
+        company: [],
         arrivaltime: '',
         delete_id: '',
         name: ''
@@ -9,10 +9,10 @@ new Vue({
     methods: {
 
         get: function () {
-            axios.get('/api/getstations', {})
+            axios.get('/api/getcompany', {})
                 .then(response => {
                     //  console.log(response.data)
-                    this.stations = response.data;
+                    this.company = response.data;
                 })
                 .catch(error => {
 
@@ -24,7 +24,7 @@ new Vue({
             $("#del-modal").modal('show');
         },
         confurmDelete: function () {
-            axios.get('/api/delstation', {
+            axios.get('/api/delcompany', {
                     params:
                         {
                             id: this.delete_id
@@ -53,7 +53,7 @@ new Vue({
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
 
-            axios.post('/api/createstation',
+            axios.post('/api/createcompany',
                 data,
                 {
                     headers: {
