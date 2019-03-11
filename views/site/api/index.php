@@ -174,15 +174,15 @@ $this->title = 'Trains';
                         <td>
                             {{trainsScedule.ticket_price}}
                         </td>
-
+                        <td>
+                            <button class="btn btn-primary" v-on:click="editWindow(trainsScedule)">Редактировать
+                            </button>
+                        </td>
                         <td>
                             <button class="btn btn-danger" v-on:click="deleteWindow(trainsScedule.id)">Удалить</button>
                         </td>
 
-                        <td>
-                            <button class="btn btn-primary" v-on:click="editWindow(trainsScedule)">РедактироватьЫ
-                            </button>
-                        </td>
+
                     </tr>
                     </tbody>
                 </table>

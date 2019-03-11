@@ -52,6 +52,28 @@ $this->title = 'Stations';
                 </div>
             </div>
 
+            <div id="edit-modal" class="modal fade">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+
+                        </div>
+                        <div class="modal-body">
+
+                            <br>
+                            <label>Название</label>
+                            <input type="text" v-model="name" name="text">
+                            <br>
+
+                            <button type="button" class="btn btn-secondary" v-on:click="edit">Создать</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
             <button class="btn-primary" v-on:click="createWindow()">Созать станцию</button>
 
             <div class="row">
@@ -69,6 +91,10 @@ $this->title = 'Stations';
                         </td>
                         <td>
                             {{station.id}}
+                        </td>
+                        <td>
+                            <button class="btn btn-primary" v-on:click="editWindow(station)">Редактировать
+                            </button>
                         </td>
                         <td>
                             <button class="btn btn-danger" v-on:click="deleteWindow(station.id)">Удалить</button>
