@@ -13,9 +13,10 @@ new Vue({
         selected_transporters: '',
         despatchtime: '',
         arrivaltime: '',
-        selected_price:'',
-        selected_transporter:'',
-        current_item:''
+        selected_price: '',
+        selected_transporter: '',
+        current_item: '',
+        shedule_id: ''
     },
     methods: {
         getSchedule: function () {
@@ -138,20 +139,53 @@ new Vue({
                 })
             this.getSchedule();
         },
-        edit:function (item) {
+        edit: function () {
+            var data = new FormData();
+            data.append('id', this.delete_id);
+            data.append('name', this.name);
+            data.append('departute_station_id', this.selected_departute_station);
+            data.append('arrival_station_id', this.selected_arrival_station);
+            data.append('departut_time', this.despatchtime);
+            data.append('arrival_time', this.arrivaltime);
+            data.append('travel_time','1');
+            data.append('ticket_price', this.input_price);
+            data.append('transport_company_id', this.selected_transporters);
+            data.append('schedule_id',this.shedule_id);
 
-            this.current_item=item
-            $("#edit-modal").modal('show');
+
+            window.axios.defaults.headers.common = {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+
+            axios.post('/api/update',
+                data,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            )
+                .then(res => {
+
+                })
+                .catch(error => {
+
+                })
+            this.getSchedule();
+
 
         },
         editWindow: function (item) {
-
-            this.name=item.name;
-            this.input_price=item.ticket_price;
-            this.despatchtime=item.departut_time;
-            this.arrivaltime=item.arrival_time;
-            this.selected_departute_station=item.departion_id;
-            this.selected_arrival_station=item.arraval_id;
+            this.delete_id = item.id;
+            this.name = item.name;
+            this.input_price = item.ticket_price;
+            this.despatchtime = item.departut_time;
+            this.arrivaltime = item.arrival_time;
+            this.selected_departute_station = item.departion_id;
+            this.selected_arrival_station = item.arraval_id;
+            this.selected_transporters = item.company_id;
+            this.shedule_id = item.schedule_id;
 
             axios.get('/api/getstations', {})
                 .then(response => {

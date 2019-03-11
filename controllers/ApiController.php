@@ -84,6 +84,7 @@ class ApiController extends Controller
                          arraval.name as 'arraval_name',
                          company.id as 'company_id',
                          company.name as 'company_name',
+                         train.schedule_id as 'schedule_id',
                           departion.name as 'departition' FROM train_schedule as train
 	                      left JOIN stations as departion on train.departute_station_id=departion.id
 	                      left JOIN stations as arraval on train.arrival_station_id=arraval.id
@@ -185,6 +186,28 @@ class ApiController extends Controller
 
         return ["ok"];
     }
+
+    public function actionUpdate()
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $request = Yii::$app->request;
+        $post = $request->post();
+        $model = TrainSchedule::find()->where(['=', 'id', $post["id"]])->one();
+        if ($request->isPost && $model!=null) {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $model->name=$post["name"];
+            $model->departute_station_id=$post["departute_station_id"];
+            $model->arrival_station_id=$post["arrival_station_id"];
+            $model->departut_time=$post["departut_time"];
+            $model->arrival_time=$post["arrival_time"];
+            $model->save();
+            return ["ok"];
+        }
+        else{
+            return ["not post"];
+        }
+    }
+
 
     public function actionCreatestation()
     {
