@@ -237,4 +237,12 @@ class ApiController extends Controller
         }
     }
 
+    public function actionGetshedule()
+    {
+        $items = Schedule::find()->all();
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        return $items;
+    }
+
 }

@@ -142,4 +142,10 @@ class SiteController extends Controller
     {
         return $this->render('api/company');
     }
+
+    public function actionApishedule()
+    {
+        return $this->render('api/shedule');
+    }
+
 }
