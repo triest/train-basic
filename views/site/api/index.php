@@ -11,7 +11,7 @@ $this->title = 'Trains';
     <div class="body-content">
         <div id="trainApp" class="vue">
 
-            <!--модальное окно -->
+            <!--модальное окно для удаления-->
             <div id="del-modal" class="modal fade">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -20,8 +20,8 @@ $this->title = 'Trains';
                         </div>
                         <div class="modal-body">
                             <b>Удалить из расписания?</b>
-                            <button type="button" class="btn btn-secondary" v-on:click="confurmDelete" >Yes</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" >No</button>
+                            <button type="button" class="btn btn-secondary" v-on:click="confurmDelete">Yes</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                         </div>
 
 
@@ -29,7 +29,53 @@ $this->title = 'Trains';
                 </div>
             </div>
             <!--конец -->
-           <button>Создать расписание</button>
+            <div id="create-modal" class="modal fade">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+
+                        </div>
+                        <div class="modal-body">
+
+                            <br>
+                            <label>Название</label>
+                            <input type="text" v-model="name" name="text">
+                            <br>
+                            Стация отправдения:
+                            <select v-model="selected_departute_station">
+                                <option v-for="station in departute_station" v-bind:value="station.id">
+                                    {{station.name}}
+                                </option>
+                            </select>
+                            <br>
+                            Стация назначения:
+                            <select v-model="selected_arrival_station">
+                                <option v-for="station in departute_station" v-bind:value="station.id">
+                                    {{station.name}}
+                                </option>
+                            </select>
+                            <br>
+                            Перевозщик:
+                            <select v-model="selected_transporters">
+                                <option v-for="transporter in transporters"  v-bind:value="transporter.id">
+                                    {{transporter.name}}
+                                </option>
+                            </select>
+                            <br>
+                            <label>Цена билета:</label>
+                            <input type="text" v-model="input_price" name="text">
+                            <br>
+                            <button type="button" class="btn btn-secondary" v-on:click="save">Создать</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <button class="btn-primary" v-on:click="createWindow()">Созать расписание</button>
 
             <div class="row">
                 <table class="table table-condensed">
@@ -60,7 +106,7 @@ $this->title = 'Trains';
                         </td>
 
                         <td>
-                           {{trainsScedule.departion_name}}
+                            {{trainsScedule.departion_name}}
                         </td>
                         <td>
                             {{trainsScedule.departut_time }}
@@ -75,7 +121,8 @@ $this->title = 'Trains';
                             {{trainsScedule.ticket_price}}
                         </td>
 
-                        <td> <button class="btn btn-danger"  v-on:click="deleteWindow(trainsScedule.id)">Удалить</button>
+                        <td>
+                            <button class="btn btn-danger" v-on:click="deleteWindow(trainsScedule.id)">Удалить</button>
                         </td>
                     </tr>
                     </tbody>

@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Company;
+use app\models\Schedule;
 use app\models\Station;
 use Yii;
 use yii\db\Query;
@@ -108,11 +110,62 @@ class ApiController extends Controller
         $trainSchedule = TrainSchedule::find()->where(['=', 'id', $id])->one();
         if ($trainSchedule != null) {
             $trainSchedule->delete();
+
             return ["ok"];
-        }else{
+        } else {
             return ["fail"];
         }
 
+    }
+
+    public function actionGetstations()
+    {
+        $stations = Station::find()->all();
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        return $stations;
+    }
+
+    public function actionGettransporters()
+    {
+        $transporters = Company::find()->all();
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        return $transporters;
+    }
+
+    public function actionCreate()
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $request = Yii::$app->request;
+
+        if ($request->isPost) {
+            $model = new TrainSchedule();
+            $post = $request->post();
+            dump($post);
+            $name = $post["name"];
+            $model->name = $name;
+            $temp = Station::find()->where(['=', 'id', $post["departute_station"]])->one();
+            $model->saveDepartion($temp);
+            $temp = $request->post("arrival_station");
+            $temp = Station::find()->where(['=', 'id', $temp])->one();
+            $model->saveArrived($temp);
+            $temp = $request->post("transportCompyny");
+            $temp = Company::find()->where(['=', 'id', $temp])->one();
+            $model->ticket_price = $post["price"];
+            $model->saveCompany($temp);
+            $model->save();
+
+            /* $model->name = $request->name;
+              $model->save(false);
+              $temp = $request->post("departure_station");
+              $temp = Station::find()->where(['=', 'id', $temp])->one();*/
+
+
+            return ["ok"];
+        }
+
+        return ["ok"];
     }
 
 }
