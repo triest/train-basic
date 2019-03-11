@@ -9,7 +9,7 @@ $this->title = 'Company';
 
 
     <div class="body-content">
-        <div id="stationApp" class="vue">
+        <div id="companyApp" class="vue">
 
             <!--модальное окно для удаления-->
             <div id="del-modal" class="modal fade">
@@ -43,7 +43,28 @@ $this->title = 'Company';
                             <input type="text" v-model="name" name="text">
                             <br>
 
-                            <button type="button" class="btn btn-secondary" v-on:click="save">Создать</button>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="edit-modal" class="modal fade">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+
+                        </div>
+                        <div class="modal-body">
+
+                            <br>
+                            <label>Название</label>
+                            <input type="text" v-model="name" name="text">
+                            <br>
+
+                            <button type="button" class="btn btn-secondary" v-on:click="edit">Создать</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
                         </div>
 
@@ -69,6 +90,9 @@ $this->title = 'Company';
                         </td>
                         <td>
                             {{item.id}}
+                        </td>
+                        <td>
+                            <button class="btn btn-primary" v-on:click="editWindow(item)">Редактировать</button>
                         </td>
                         <td>
                             <button class="btn btn-danger" v-on:click="deleteWindow(item.id)">Удалить</button>

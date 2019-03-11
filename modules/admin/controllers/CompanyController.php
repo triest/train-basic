@@ -5,13 +5,12 @@ namespace app\modules\admin\controllers;
 use Yii;
 use app\models\Company;
 use app\models\CompanySearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-/**
- * CompanyController implements the CRUD actions for Company model.
- */
+
 class CompanyController extends Controller
 {
     /**
@@ -20,32 +19,38 @@ class CompanyController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['logout'],
+                'rules' => [
+                    [
+                        'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'logout' => ['post'],
                 ],
             ],
         ];
     }
 
-    /**
-     * Lists all Company models.
-     * @return mixed
-     */
+
     public function actionIndex()
     {
-        $searchModel = new CompanySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $stations = Company::find()->all();
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        return $stations;
     }
 
     /**
      * Displays a single Company model.
+     *
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -60,6 +65,7 @@ class CompanyController extends Controller
     /**
      * Creates a new Company model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     *
      * @return mixed
      */
     public function actionCreate()
@@ -75,43 +81,44 @@ class CompanyController extends Controller
         ]);
     }
 
-    /**
-     * Updates an existing Company model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+    public function actionUpdate()
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $request = Yii::$app->request;
+        $post = $request->post();
+
+        $model = Company::find()->where(['=', 'id', $post["id"]])->one();
+        if ($request->isPost && $model != null) {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $model->name = $post["name"];
+            $model->save();
+
+            return ["ok"];
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        return ["fail"];
     }
 
-    /**
-     * Deletes an existing Company model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-        return $this->redirect(['index']);
+        $trainSchedule = Company::find()->where(['=', 'id', $id])->one();
+        if ($trainSchedule != null) {
+            $trainSchedule->delete();
+
+            return ["ok"];
+        } else {
+            return ["fail"];
+        }
     }
 
     /**
      * Finds the Company model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     *
      * @param integer $id
      * @return Company the loaded model
      * @throws NotFoundHttpException if the model cannot be found
@@ -124,4 +131,14 @@ class CompanyController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionGetcompany()
+    {
+        $transporters = Company::find()->all();
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        return $transporters;
+    }
+
+
 }

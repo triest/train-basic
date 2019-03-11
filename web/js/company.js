@@ -1,5 +1,5 @@
 new Vue({
-    el: '#stationApp',
+    el: '#companyApp',
     data: {
         company: [],
         arrivaltime: '',
@@ -9,7 +9,7 @@ new Vue({
     methods: {
 
         get: function () {
-            axios.get('/api/getcompany', {})
+            axios.get('/company', {})
                 .then(response => {
                     //  console.log(response.data)
                     this.company = response.data;
@@ -24,7 +24,7 @@ new Vue({
             $("#del-modal").modal('show');
         },
         confurmDelete: function () {
-            axios.get('/api/delcompany', {
+            axios.get('/company/delete', {
                     params:
                         {
                             id: this.delete_id
@@ -43,6 +43,7 @@ new Vue({
                 )
             this.get();
             $("#del-modal").modal('hide');
+            this.get();
         },
         save: function () {
             console.log(this.name)
@@ -71,6 +72,38 @@ new Vue({
         },
         createWindow: function () {
             $("#create-modal").modal('show');
+        },
+        editWindow: function (item) {
+            this.name = item.name;
+            this.id = item.id;
+            $("#edit-modal").modal('show');
+        },
+        edit: function () {
+            var data = new FormData();
+            data.append('id', this.id);
+            data.append('name', this.name);
+
+            window.axios.defaults.headers.common = {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            };
+
+            axios.post('/company/update',
+                data,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            )
+                .then(res => {
+
+                })
+                .catch(error => {
+
+                })
+            this.get();
+            $("#edit-modal").modal('hide');
         }
     }
 

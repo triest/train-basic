@@ -9,7 +9,7 @@ new Vue({
     methods: {
 
         get: function () {
-            axios.get('/api/getstations', {})
+            axios.get('/station/getstations', {})
                 .then(response => {
                     //  console.log(response.data)
                     this.stations = response.data;

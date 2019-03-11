@@ -17,7 +17,7 @@ use app\models\ContactForm;
 use app\models\TrainSchedule;
 use yii\rest\ActiveController;
 
-class StationController extends Controller
+class CompanyController extends Controller
 {
     /**
      * {@inheritdoc}
