@@ -28,7 +28,7 @@ class m190310_085728_add_columnt_and_foregin_keys_to_timetable extends Migration
      */
     public function safeDown()
     {
-        $this->dropColumn('user', 'isAdmin');
+
     }
 
     /*

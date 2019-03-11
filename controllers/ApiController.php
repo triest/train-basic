@@ -245,4 +245,20 @@ class ApiController extends Controller
         return $items;
     }
 
+    public function actionCreateshedule()
+    {
+
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $request = Yii::$app->request;
+        if ($request->isPost) {
+            $request = $request->post();
+            dump($request);
+            $shedule = new Schedule();
+            $shedule->name = $request["name"];
+            $shedule->days = $request["days"];
+            $shedule->save();
+        }
+
+    }
+
 }

@@ -14,7 +14,8 @@ new Vue({
         despatchtime: '',
         arrivaltime: '',
         checked: [],
-        checkedDays: []
+        checkedDays: [],
+        name: ''
     },
     methods: {
         getSchedule: function () {
@@ -103,8 +104,29 @@ new Vue({
             $("#create-modal").modal('hide');
             // тправляе post запрос
             var data = new FormData();
-            console.log(this.days)
-            data.append('days', this.checked);
+
+            data.append('days', this.checkedDays);
+            data.append('name', this.name)
+            window.axios.defaults.headers.common = {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+
+            axios.post('/api/createshedule',
+                data,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            )
+                .then(res => {
+
+                })
+                .catch(error => {
+
+                })
+            this.get();
 
 
         }

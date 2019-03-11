@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string $days
+ * @property string $name
  *
  * @property TrainSchedule[] $trainSchedules
  */
@@ -29,6 +30,7 @@ class Schedule extends \yii\db\ActiveRecord
     {
         return [
             [['days'], 'string', 'max' => 255],
+            [['name'], 'string', 'max' => 64],
         ];
     }
 
@@ -40,6 +42,7 @@ class Schedule extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'days' => 'Days',
+            'name' => 'Name',
         ];
     }
 
