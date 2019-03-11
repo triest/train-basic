@@ -107,7 +107,7 @@ class ApiController extends Controller
     public function actionDelstation($id)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $trainSchedule = TrainSchedule::find()->where(['=', 'id', $id])->one();
+        $trainSchedule = Station::find()->where(['=', 'id', $id])->one();
         if ($trainSchedule != null) {
             $trainSchedule->delete();
 
@@ -168,5 +168,29 @@ class ApiController extends Controller
 
         return ["ok"];
     }
+
+    public function actionCreatestation()
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $request = Yii::$app->request;
+
+        if ($request->isPost) {
+            $request = $request->post();
+            $name = $request["name"];
+            $station = Station::find()->where(['=', 'id', $name])->one();
+            if ($station != null) {
+                return ["alredy"];
+            } else {
+                $station = new Station();
+                $station->name = $name;
+                $station->save();
+
+                return ["ok"];
+            }
+        } else {
+            return ["postonly"];
+        }
+    }
+
 
 }

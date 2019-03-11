@@ -132,4 +132,9 @@ class SiteController extends Controller
     {
         return $this->render('api/index');
     }
+
+    public function actionApistation()
+    {
+        return $this->render('api/station');
+    }
 }

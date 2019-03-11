@@ -133,7 +133,7 @@ new Vue({
                 .catch(error => {
 
                 })
-
+            this.getSchedule();
         }
 
     },
