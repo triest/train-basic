@@ -96,7 +96,7 @@ class TrainSchedule extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getArrivalStation()
+    public function getArrivalstation()
     {
         return $this->hasOne(Station::className(), ['id' => 'arrival_station_id']);
     }
@@ -141,8 +141,9 @@ class TrainSchedule extends \yii\db\ActiveRecord
 
     public function saveArrived($station)
     {
-        $this->arrival_station_id = $station->id;
-        $this->save(false);
+       // $this->arrival_station_id = $station->id;
+       // $this->save(false);
+        $this->link('arrivalstation',$station);
     }
 
     public function saveCompany($temp)
