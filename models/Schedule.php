@@ -53,4 +53,19 @@ class Schedule extends \yii\db\ActiveRecord
     {
         return $this->hasMany(TrainSchedule::className(), ['schedule_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDays(){
+        $days = $this->hasMany(Day::className(), ['id' => 'day_id'])
+            ->select(['id', 'name'])
+            ->viaTable('schedule_days', ['shedule_id' => 'id']);
+        return $days;
+    }
+
+    public function saveDay($day)
+    {
+        $this->link('days', $day); //соединяем
+    }
 }

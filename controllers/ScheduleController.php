@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Company;
+use app\models\Day;
 use app\models\Schedule;
 use app\models\Station;
 use Yii;
@@ -63,10 +64,10 @@ class ScheduleController extends Controller
 
     public function actionIndex()
     {
-        $stations = Schedule::find()->all();
+        $items = Schedule::find()->all();
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-        return $stations;
+        return $items;
 
     }
 
@@ -76,17 +77,26 @@ class ScheduleController extends Controller
 
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $request = Yii::$app->request;
+
         if ($request->isPost) {
 
             $request = $request->post();
             $shedule = new Schedule();
             $shedule->name = $request["name"];
-            $shedule->days = $request["days"];
+            $days = $request["days"];
+            $days = explode(',', $days);
             $shedule->save(false);
+            foreach ($days as $day) {
+                $day = Day::find()->where(['=','name', $day])->one();
+                if ($day != null) {
+                    $shedule->saveDay($day);
+                }
+            }
+
+
         }
 
     }
-
 
 
     public function actionUpdate()
@@ -109,6 +119,7 @@ class ScheduleController extends Controller
 
     public function actionDelete($id)
     {
+        die();
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
         $trainSchedule = Schedule::find()->where(['=', 'id', $id])->one();
