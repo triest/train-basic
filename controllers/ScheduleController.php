@@ -9,6 +9,7 @@ use app\models\Station;
 use Yii;
 use yii\db\Query;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -67,6 +68,7 @@ class ScheduleController extends Controller
         $items = Schedule::find()->all();
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
+
         return $items;
 
     }
@@ -87,7 +89,7 @@ class ScheduleController extends Controller
             $days = explode(',', $days);
             $shedule->save(false);
             foreach ($days as $day) {
-                $day = Day::find()->where(['=','name', $day])->one();
+                $day = Day::find()->where(['=', 'name', $day])->one();
                 if ($day != null) {
                     $shedule->saveDay($day);
                 }
@@ -104,11 +106,20 @@ class ScheduleController extends Controller
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $request = Yii::$app->request;
         $post = $request->post();
-
-        $model = Station::find()->where(['=', 'id', $post["id"]])->one();
+        $model = Schedule::find()->where(['=', 'id', $post["id"]])->one();
         if ($request->isPost && $model != null) {
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             $model->name = $post["name"];
+            $days = $post["days"];
+            $model->deleteAllDays();  //очияашем текущие установленные дни для этого экзмпляра
+            $days = explode(',', $days);
+            foreach ($days as $day) {
+                $item = Day::find()->where(['=', 'id', intval($day)])->one();
+                if ($item != null) {
+                    $model->saveDay($item);
+                }
+            }
+
             $model->save();
 
             return ["ok"];
@@ -119,7 +130,6 @@ class ScheduleController extends Controller
 
     public function actionDelete($id)
     {
-        die();
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
         $trainSchedule = Schedule::find()->where(['=', 'id', $id])->one();
@@ -129,6 +139,25 @@ class ScheduleController extends Controller
             return ["ok"];
         } else {
             return ["fail"];
+        }
+    }
+
+    public function actionGetdays($id)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $items = Schedule::find()->where(['=', 'id', $id])->one();
+        if ($items != null) {
+            $days = $items->getDays()->all();
+            $days2 = ArrayHelper::toArray($days, [
+                'app\models\Day' => [
+                    'id',
+                ],
+            ]);
+            $days2 = ArrayHelper::getColumn($days2, 'id');
+
+            return $days2;
+        } else {
+            return null;
         }
     }
 

@@ -57,15 +57,34 @@ class Schedule extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDays(){
+    public function getDays()
+    {
         $days = $this->hasMany(Day::className(), ['id' => 'day_id'])
             ->select(['id', 'name'])
             ->viaTable('schedule_days', ['shedule_id' => 'id']);
+
         return $days;
+    }
+
+    public function saveDays($days)
+    {
+        foreach ($days as $day) {
+            $this->saveDay($day);
+        }
     }
 
     public function saveDay($day)
     {
         $this->link('days', $day); //соединяем
+    }
+
+    public function deleteAllDays()
+    {
+        //удаляем все ссылки, где есть это рассписание
+        \Yii::$app
+            ->db
+            ->createCommand()
+            ->delete('schedule_days', ['shedule_id' => $this->id])
+            ->execute();
     }
 }

@@ -15,7 +15,39 @@ new Vue({
         arrivaltime: '',
         checked: [],
         checkedDays: [],
-        name: ''
+        selectedDays: [],
+        form: [],
+        modules: [
+            {
+                "id": 1,
+                "name": "Monday",
+            },
+            {
+                "id": 2,
+                "name": "Tuesday",
+            },
+            {
+                "id": 3,
+                "name": "Wednesday",
+            },
+            {
+                "id": 4,
+                "name": "Thursday",
+            },
+            {
+                "id": 5,
+                "name": "Friday",
+            },
+            {
+                "id": 6,
+                "name": "Saturday",
+            },
+            {
+                "id": 7,
+                "name": "Sunday",
+            }
+
+        ]
     },
     methods: {
         get: function () {
@@ -99,6 +131,22 @@ new Vue({
         editWindow: function (item) {
             this.name = item.name;
             this.id = item.id;
+
+
+            axios.get('/schedule/getdays', {
+                    params:
+                        {
+                            id: this.id
+                        }
+                }
+            )
+                .then(res => {
+                    this.form = res.data
+                })
+                .catch(error => {
+
+                });
+
             $("#edit-modal").modal('show');
         },
         save: function () {
@@ -129,14 +177,38 @@ new Vue({
 
                 });
             this.get();
+        },
+        edit: function () {
+            var data = new FormData();
+            data.append('id', this.id);
+            data.append('name', this.name);
+            data.append('days', this.form);
+            window.axios.defaults.headers.common = {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+            axios.post('/schedule/update',
+                data,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            )
+                .then(res => {
 
+                })
+                .catch(error => {
 
+                })
+            this.get();
         }
 
     },
     computed: {},
     beforeMount() {
         this.get()
+
     },
 
 });

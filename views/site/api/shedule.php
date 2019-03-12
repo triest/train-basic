@@ -84,28 +84,36 @@ $this->title = 'Schedule';
                             <label>Название</label>
                             <input type="text" v-model="name" name="text">
                             <br>
-                            <input type="checkbox" id="Mondey" value="1" v-model="checkedDays">
-                            <label for="Mondey">Mondey</label>
+                            <li v-for="module in modules">
+                                <label v-bind:for="module.id">
+                                    <input type="checkbox" v-model="form" v-bind:value="module.id"
+                                           v-bind:id="module.id">
+                                    <span>{{ module.name }}</span>
+                                </label>
+                            </li>
+                            <!--    <input type="checkbox" id="Mondey" value="1" v-model="checkedDays" :checked="">
+                                <label for="Mondey">Mondey</label>
+                                <br>
+                                <input type="checkbox" id="Tuesday" value="2" v-model="checkedDays">
+                                <label for="Tuesday">Tuesday</label>
+                                <br>
+                                <input type="checkbox" id="Wednesday" value="3" v-model="checkedDays">
+                                <label for="Wednesday">Wednesday</label>
+                                <br>
+                                <input type="checkbox" id="Thursday" value="4" v-model="checkedDays">
+                                <label for="Thursday">Thursday</label>
+                                <br>
+                                <input type="checkbox" id="Friday" value="5" v-model="checkedDays">
+                                <label for="Friday">Friday</label>
+                                <br>
+                                <input type="checkbox" id="Saturday" value="6" v-model="checkedDays">
+                                <label for="Saturday">Saturday</label>
+                                <br>
+                                <input type="checkbox" id="Saturday" value="7" v-model="checkedDays">
+                                <label for="Sanday">Sanday</label>
+                                -->
                             <br>
-                            <input type="checkbox" id="Tuesday" value="2" v-model="checkedDays">
-                            <label for="Tuesday">Tuesday</label>
-                            <br>
-                            <input type="checkbox" id="Wednesday" value="3" v-model="checkedDays">
-                            <label for="Wednesday">Wednesday</label>
-                            <br>
-                            <input type="checkbox" id="Thursday" value="4" v-model="checkedDays">
-                            <label for="Thursday">Thursday</label>
-                            <br>
-                            <input type="checkbox" id="Friday" value="5" v-model="checkedDays">
-                            <label for="Friday">Friday</label>
-                            <br>
-                            <input type="checkbox" id="Saturday" value="6" v-model="checkedDays">
-                            <label for="Saturday">Saturday</label>
-                            <br>
-                            <input type="checkbox" id="Saturday" value="7" v-model="checkedDays">
-                            <label for="Sanday">Sanday</label>
-                            <br>
-                            <button type="button" class="btn btn-secondary" v-on:click="save">Создать</button>
+                            <button type="button" class="btn btn-secondary" v-on:click="edit">Создать</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
                         </div>
 
@@ -119,6 +127,9 @@ $this->title = 'Schedule';
             <div class="row">
                 <table class="table table-condensed">
                     <thead>
+                    <th>
+                        id
+                    </th>
                     <th>
                         Name
                     </th>
