@@ -70,9 +70,8 @@ class StationController extends ActiveController
 
 
     public function actionView($id){
-        $stations = Station::find()->where(['id',$id])->one();
+        $stations = Station::find()->where(['id'=>$id])->one();
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
         return $stations;
     }
 
@@ -117,6 +116,8 @@ class StationController extends ActiveController
 
         return ["fail"];
     }
+
+
 
     public function actionDelete($id)
     {

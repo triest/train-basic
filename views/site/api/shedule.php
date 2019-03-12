@@ -40,7 +40,6 @@ $this->title = 'Stations';
 
                             <br>
                             <label>Название</label>
-                            <label>Название</label>
                             <input type="text" v-model="name" name="text">
                             <br>
                             <input type="checkbox" id="Mondey" value="Mondey" v-model="checkedDays">

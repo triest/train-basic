@@ -21,9 +21,10 @@ class CompanyController  extends ActiveController
 {
     public $modelClass='app\models\Company';
 
-    public function actions()
-    {
+    /* Declare actions supported by APIs (Added in api/modules/v1/components/controller.php too) */
+    public function actions(){
         $actions = parent::actions();
+        unset($actions['create']);
         unset($actions['update']);
         unset($actions['delete']);
         unset($actions['view']);
@@ -31,6 +32,16 @@ class CompanyController  extends ActiveController
         return $actions;
     }
 
+    /* Declare methods supported by APIs */
+    protected function verbs(){
+        return [
+            'create' => ['POST'],
+            'update' => ['PUT', 'PATCH','POST'],
+            'delete' => ['DELETE'],
+            'view' => ['GET'],
+            'index'=>['GET'],
+        ];
+    }
     /**
      * {@inheritdoc}
      */
@@ -69,8 +80,11 @@ class CompanyController  extends ActiveController
     }
 
     public function actionView($id){
-
+        $items = Company::find()->where(['id' => $id])->one();
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $items;
     }
+
 
 
 

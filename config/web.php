@@ -54,6 +54,30 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'company',
+                    'extraPatterns' => [
+                        'POST' => 'create', // 'xxxxx' refers to 'actionXxxxx'
+                        'PUT {id}' => 'update',
+                        'PATCH {id}' => 'update',
+                        'DELETE {id}' => 'delete',
+                        'GET {id}' => 'view',
+                        'GET ' => 'index',
+                    ],
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'station',
+                    'extraPatterns' => [
+                        'POST' => 'create', // 'xxxxx' refers to 'actionXxxxx'
+                        'PUT {id}' => 'update',
+                        'PATCH {id}' => 'update',
+                        'DELETE {id}' => 'delete',
+                        'GET {id}' => 'view',
+                        'GET ' => 'index',
+                    ],
+                ],
             ],
         ],
 
