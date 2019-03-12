@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use DeepCopy\TypeFilter\ShallowCopyFilter;
 use Yii;
 
 /**
@@ -102,11 +103,10 @@ class TrainSchedule extends \yii\db\ActiveRecord
     }
 
 
-
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTransportCompany()
+    public function getTransportcompany()
     {
         return $this->hasOne(Company::className(), ['id' => 'transport_company_id']);
     }
@@ -122,33 +122,38 @@ class TrainSchedule extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDepartuteStation()
+    public function getDepartutestation()
     {
         return $this->hasOne(Station::className(), ['id' => 'departute_station_id']);
     }
 
-    public function saveTrainSchedule()
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTrainschedule()
     {
-
+        return $this->hasOne(Schedule::className(), ['id' => 'schedule_id']);
     }
 
     public function saveDepartion($station)
     {
-        $this->departute_station_id = $station->id;
-        $this->save(false);
-        //     $this->link('departute_station_id', $departion); //соединяем
+        $this->link('departutestation', $station);
     }
 
     public function saveArrived($station)
     {
-       // $this->arrival_station_id = $station->id;
-       // $this->save(false);
-        $this->link('arrivalstation',$station);
+        $this->link('arrivalstation', $station);
     }
 
-    public function saveCompany($temp)
+    public function saveCompany($company)
     {
-        $this->transport_company_id = $temp->id;
-        $this->save(false);
+        $this->link('transportcompany', $company);
     }
+
+    public function saveShedule($shedule)
+    {
+        $this->link('trainschedule',$shedule);
+    }
+
+
 }

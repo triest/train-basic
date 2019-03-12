@@ -17,8 +17,20 @@ use app\models\ContactForm;
 use app\models\TrainSchedule;
 use yii\rest\ActiveController;
 
-class StationController extends Controller
+class StationController extends ActiveController
 {
+    public $modelClass='app\models\Station';
+
+    public function actions()
+    {
+        $actions = parent::actions();
+        unset($actions['update']);
+        unset($actions['delete']);
+        unset($actions['view']);
+        unset($actions['index']);
+        return $actions;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -45,21 +57,7 @@ class StationController extends Controller
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
-        ];
-    }
+
 
     public function actionIndex()
     {
@@ -70,60 +68,13 @@ class StationController extends Controller
 
     }
 
-    public function actionGetstation($id)
-    {
-        $request = Yii::$app->request;
-        $post = $request->post();
-        $station = Station::find()->where(['=', 'id', $id])->one();
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-        return $station;
-    }
-
-    public function actionDelstation($id)
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        $trainSchedule = Station::find()->where(['=', 'id', $id])->one();
-        if ($trainSchedule != null) {
-            $trainSchedule->delete();
-
-            return ["ok"];
-        } else {
-            return ["fail"];
-        }
-    }
-
-    public function actionDelcompany($id)
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        $trainSchedule = Company::find()->where(['=', 'id', $id])->one();
-        if ($trainSchedule != null) {
-            $trainSchedule->delete();
-
-            return ["ok"];
-        } else {
-            return ["fail"];
-        }
-    }
-
-    public function actionGetstations()
-    {
-        $stations = Station::find()->all();
+    public function actionView($id){
+        $stations = Station::find()->where(['id',$id])->one();
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
         return $stations;
     }
-
-    public function actionGettransporters()
-    {
-        $transporters = Company::find()->all();
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        return $transporters;
-    }
-
 
     public function actionCreate()
     {
@@ -148,73 +99,6 @@ class StationController extends Controller
         }
     }
 
-    public function actionGetcompany()
-    {
-        $transporters = Company::find()->all();
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        return $transporters;
-    }
-
-    public function actionCreatecompany()
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $request = Yii::$app->request;
-
-        if ($request->isPost) {
-            $request = $request->post();
-            $name = $request["name"];
-            $station = Company::find()->where(['=', 'id', $name])->one();
-            if ($station != null) {
-                return ["alredy"];
-            } else {
-                $station = new Company();
-                $station->name = $name;
-                $station->save();
-
-                return ["ok"];
-            }
-        } else {
-            return ["postonly"];
-        }
-    }
-
-    public function actionGetshedule()
-    {
-        $items = Schedule::find()->all();
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        return $items;
-    }
-
-    public function actionCreateshedule()
-    {
-
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $request = Yii::$app->request;
-        if ($request->isPost) {
-            $request = $request->post();
-            $shedule = new Schedule();
-            $shedule->name = $request["name"];
-            $shedule->days = $request["days"];
-            $shedule->save();
-        }
-
-    }
-
-    public function actionDelshedule($id)
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        $trainSchedule = Schedule::find()->where(['=', 'id', $id])->one();
-        if ($trainSchedule != null) {
-            $trainSchedule->delete();
-
-            return ["ok"];
-        } else {
-            return ["fail"];
-        }
-    }
 
     public function actionUpdate()
     {
@@ -238,9 +122,19 @@ class StationController extends Controller
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-        $trainSchedule = Station::find()->where(['=', 'id', $id])->one();
-        if ($trainSchedule != null) {
-            $trainSchedule->delete();
+        $item = Station::find()->where(['=', 'id', $id])->one();
+        if ($item != null) {
+            //check TrainShedule
+            $trainShedule=TrainSchedule::find()
+                ->where(['=','arrival_station_id',$id])
+                ->orWhere(['=','departute_station_id',$id])->one();
+            if ($trainShedule==null){
+                $item->delete();
+            }
+            else{
+                return ["has relation"];
+            }
+
 
             return ["ok"];
         } else {

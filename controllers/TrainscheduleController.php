@@ -11,6 +11,7 @@ use app\models\TrainscheduleSearch;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
+use yii\rest\ActiveController;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -18,8 +19,21 @@ use yii\filters\VerbFilter;
 /**
  * TrainscheduleController implements the CRUD actions for TrainSchedule model.
  */
-class TrainscheduleController extends Controller
+class TrainscheduleController  extends ActiveController
 {
+    public $modelClass='app\models\TrainSchedule';
+
+    public function actions()
+    {
+        $actions = parent::actions();
+        unset($actions['update']);
+        unset($actions['delete']);
+        unset($actions['view']);
+        unset($actions['index']);
+        return $actions;
+    }
+
+
     /**
      * {@inheritdoc}
      */
@@ -48,8 +62,27 @@ class TrainscheduleController extends Controller
 
     public function actionIndex()
     {
-        $stations = Company::find()->all();
+        $connection = Yii::$app->getDb();
+        $command = $connection->createCommand("SELECT 
+                      train.id,train.name,
+                      departion.id as 'departion_id',
+                      departion.name as 'departion_name',
+                        train.departut_time as 'departut_time',
+                        train.arrival_time as 'arrival_time',
+                        train.ticket_price as 'ticket_price',
+                         arraval.id as 'arraval_id' ,
+                         arraval.name as 'arraval_name',
+                         company.id as 'company_id',
+                         company.name as 'company_name',
+                         train.schedule_id as 'schedule_id',
+                          departion.name as 'departition' FROM train_schedule as train
+	                      left JOIN stations as departion on train.departute_station_id=departion.id
+	                      left JOIN stations as arraval on train.arrival_station_id=arraval.id
+	                      left join companies as company on company.id=train.transport_company_id
+	                      ");
+        $result = $command->queryAll();
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $result;
 
         return $stations;
 
@@ -64,9 +97,7 @@ class TrainscheduleController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+
     }
 
     /**

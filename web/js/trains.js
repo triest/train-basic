@@ -21,7 +21,7 @@ new Vue({
     methods: {
         get: function () {
             this.trainSchedules = null;
-            axios.get('/api')
+            axios.get('/trainschedule')
                 .then(
                     response => {
                         //this.users = response.data;
@@ -32,25 +32,7 @@ new Vue({
                     error => console.log(error)
                 )
         },
-        getStation: function (id) {
-            axios.get('/api/getstation', {
-                    params:
-                        {
-                            id: id
-                        }
-                }
-            )
-                .then(
-                    response => {
-                        //this.users = response.data;
-                        //this.trainSchedules = response.data
-                        this.departute_station = response.data;
-                    }
-                )
-                .catch(
-                    error => console.log(error)
-                )
-        },
+
         deleteWindow: function (id) {
             console.log(id),
                 this.delete_id = id;
@@ -60,7 +42,7 @@ new Vue({
             console.log(this.delete_id)
             var data = new FormData();
             data.append('del', this.id);
-            axios.get('/api/delstation', {
+            axios.get('/api/delete', {
                     params:
                         {
                             id: this.delete_id
@@ -97,9 +79,7 @@ new Vue({
 
             $("#create-modal").modal('show');
         },
-        get: function () {
 
-        },
         save: function () {
             console.log(this.name);
             console.log(this.selected_departute_station);

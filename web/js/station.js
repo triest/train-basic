@@ -9,7 +9,7 @@ new Vue({
     methods: {
 
         get: function () {
-            axios.get('/station/getstations', {})
+            axios.get('/station', {})
                 .then(response => {
                     //  console.log(response.data)
                     this.stations = response.data;
@@ -45,7 +45,6 @@ new Vue({
             $("#del-modal").modal('hide');
         },
         save: function () {
-            console.log(this.name)
             var data = new FormData();
             data.append('name', this.name);
             window.axios.defaults.headers.common = {
