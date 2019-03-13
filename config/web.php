@@ -67,6 +67,18 @@ $config = [
                           'GET ' => 'index',
                       ],
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'company',
+                    'extraPatterns' => [
+                        'POST' => 'create', // 'xxxxx' refers to 'actionXxxxx'
+                        'POST {id}' => 'update',
+                        'PATCH {id}' => 'update',
+                        'DELETE {id}' => 'delete',
+                        'GET {id}' => 'view',
+                        'GET ' => 'index',
+                    ],
+                ],
 
             ],
         ],

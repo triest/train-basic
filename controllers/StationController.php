@@ -26,11 +26,37 @@ class StationController extends ActiveController
         $actions = parent::actions();
         //  unset($actions['index']);
         unset($actions['create']);
-      //  unset($actions['delete']);
+        //  unset($actions['delete']);
         unset($actions['update']);
-   //     unset($actions['view']);
+
+        //     unset($actions['view']);
 
         return $actions;
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => 'yii\filters\ContentNegotiator',
+                'only' => ['index', 'view', 'create', 'update', 'search'],
+                'formats' => ['application/json' => Response::FORMAT_JSON,],
+
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'index' => ['get'],
+                    'view' => ['get'],
+                    'create' => ['post'],
+                    'update' => ['put'],
+                    'delete' => ['delete'],
+                    'deleteall' => ['post'],
+                    'search' => ['get'],
+                ],
+
+            ],
+        ];
     }
 
     public function actionCreate()
@@ -44,6 +70,8 @@ class StationController extends ActiveController
             $station = Station::find()->where(['=', 'id', $name])->one();
             if ($station != null) {
                 return ["alredy"];
+            } elseif ($name == null) {
+                return ["fail"];
             } else {
                 $station = new Station();
                 $station->name = $name;
@@ -57,15 +85,22 @@ class StationController extends ActiveController
     }
 
 
-    public function actionUpdate()
+    public function actionUpdate($id)
     {
 
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $request = Yii::$app->request;
-        $post = $request->post();
-
+        //   $request = Yii::$app->request;
+      //  $post = Yii::$app->request;
+        $put=Yii::$app->request->getBodyParams();
+        dump($put);
+        $name = $put["name"];
+        dump($name);
+        die();
+        //    $name = $put["name"];
+        dump($name);
         $model = Station::find()->where(['=', 'id', $id])->one();
-        if ($request->isPost && $model != null) {
+        if ($request->isPut && $model != null) {
+
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             $model->name = $post["name"];
             $model->save();

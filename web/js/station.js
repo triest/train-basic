@@ -78,25 +78,27 @@ new Vue({
             data.append('id', this.id);
             data.append('name', this.name);
 
-            window.axios.defaults.headers.common = {
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
+               window.axios.defaults.headers.common = {
+                   'X-Requested-With': 'XMLHttpRequest',
+                   'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+               }
 
-            axios.patch('/stations/' + this.id,
-                data
-                /*  {
-                      headers: {
-                          'Content-Type': 'multipart/form-data'
-                      }
-                  }*/
-            )
-                .then(res => {
+            /*   axios.put('/stations/' + this.id,
+                  // data
+                   "name"this.name
+               )
+                   .then(res => {
 
-                })
-                .catch(error => {
+                   })
+                   .catch(error => {
 
-                })
+                   })*/
+            axios.put('/stations/' + this.id, data)
+                .success(function () {
+                    console.log("success")
+                }).error(
+                console.log("error")
+            );
             this.get();
             $("#edit-modal").modal('hide');
         }
