@@ -49,7 +49,7 @@ class StationController extends ActiveController
                     'index' => ['get'],
                     'view' => ['get'],
                     'create' => ['post'],
-                    'update' => ['put'],
+                    'update' => ['patch'],
                     'delete' => ['delete'],
                     'deleteall' => ['post'],
                     'search' => ['get'],
@@ -90,11 +90,11 @@ class StationController extends ActiveController
 
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         //   $request = Yii::$app->request;
-      //  $post = Yii::$app->request;
-        $put=Yii::$app->request->getBodyParams();
+        $put = Yii::$app->request->getParams();
+        //   $put=Yii::$app->request->getBodyParams();
         dump($put);
-        $name = $put["name"];
-        dump($name);
+        // $name = $put["name"];
+        // dump($name);
         die();
         //    $name = $put["name"];
         dump($name);
@@ -111,29 +111,26 @@ class StationController extends ActiveController
         return ["fail"];
     }
 
-    /*
-        public function actionDelete($id)
-        {
-            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    public function actionDelete($id)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-            $item = Station::find()->where(['=', 'id', $id])->one();
-            if ($item != null) {
-                //check TrainShedule
-                $trainShedule = TrainSchedule::find()
-                    ->where(['=', 'arrival_station_id', $id])
-                    ->orWhere(['=', 'departute_station_id', $id])->one();
-                if ($trainShedule == null) {
-                    $item->delete();
-                } else {
-                    return ["has relation"];
-                }
-
-
+        $item = Station::find()->where(['=', 'id', $id])->one();
+        if ($item != null) {
+            $trainShedule = TrainSchedule::find()
+                ->where(['=', 'station_id', $id])
+                ->one();
+            if ($trainShedule == null) {
+                //   $item->delete();
                 return ["ok"];
             } else {
-                return ["fail"];
+                return ["has relation"];
             }
+
+
+        } else {
+            return ["fail"];
         }
-    */
+    }
 
 }

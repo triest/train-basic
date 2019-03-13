@@ -24,17 +24,10 @@ new Vue({
             $("#del-modal").modal('show');
         },
         confurmDelete: function () {
-            axios.get('/company/delete', {
-                    params:
-                        {
-                            id: this.delete_id
-                        }
-                }
+            axios.delete('/companies/' + this.delete_id
             )
                 .then(
                     response => {
-                        //this.users = response.data;
-                        //this.trainSchedules = response.data
                         this.departute_station = response.data;
                     }
                 )

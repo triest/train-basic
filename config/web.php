@@ -58,18 +58,30 @@ $config = [
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'station',
-                      'extraPatterns' => [
-                          'POST' => 'create', // 'xxxxx' refers to 'actionXxxxx'
-                          'POST {id}' => 'update',
-                          'PATCH {id}' => 'update',
-                          'DELETE {id}' => 'delete',
-                          'GET {id}' => 'view',
-                          'GET ' => 'index',
-                      ],
+                    'extraPatterns' => [
+                        'POST' => 'create', // 'xxxxx' refers to 'actionXxxxx'
+                        'POST {id}' => 'update',
+                        'PATCH {id}' => 'update',
+                        'DELETE {id}' => 'delete',
+                        'GET {id}' => 'view',
+                        'GET ' => 'index',
+                    ],
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'company',
+                    'extraPatterns' => [
+                        'POST' => 'create', // 'xxxxx' refers to 'actionXxxxx'
+                        'POST {id}' => 'update',
+                        'PATCH {id}' => 'update',
+                        'DELETE {id}' => 'delete',
+                        'GET {id}' => 'view',
+                        'GET ' => 'index',
+                    ],
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'Schedule',
                     'extraPatterns' => [
                         'POST' => 'create', // 'xxxxx' refers to 'actionXxxxx'
                         'POST {id}' => 'update',

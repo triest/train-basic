@@ -26,44 +26,36 @@ class CompanyController  extends ActiveController
         $actions = parent::actions();
         unset($actions['create']);
         unset($actions['update']);
-        unset($actions['delete']);
-        unset($actions['view']);
-        unset($actions['index']);
+     //   unset($actions['delete']);
+     //   unset($actions['view']);
+     //   unset($actions['index']);
         return $actions;
     }
 
-    /* Declare methods supported by APIs */
-    protected function verbs(){
-        return [
-            'create' => ['POST'],
-            'update' => ['PUT', 'PATCH','POST'],
-            'delete' => ['DELETE'],
-            'view' => ['GET'],
-            'index'=>['GET'],
-        ];
-    }
-    /**
-     * {@inheritdoc}
-     */
+
+
+
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
+            [
+                'class' => 'yii\filters\ContentNegotiator',
+                'only' => ['index', 'view', 'create', 'update', 'search'],
+                'formats' => ['application/json' => Response::FORMAT_JSON,],
+
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'index' => ['get'],
+                    'view' => ['get'],
+                    'create' => ['post'],
+                    'update' => ['put'],
+                    'delete' => ['delete'],
+                    'deleteall' => ['post'],
+                    'search' => ['get'],
                 ],
+
             ],
         ];
     }
@@ -140,7 +132,7 @@ class CompanyController  extends ActiveController
                 ->where(['=', 'transport_company_id', $id])
                 ->one();
             if ($trainShedule == null) {
-                $item->delete();
+             //   $item->delete();
                 return ["ok"];
             } else {
                 return ["has relation"];

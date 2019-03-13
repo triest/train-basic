@@ -21,47 +21,49 @@ use yii\rest\ActiveController;
 
 class ScheduleController extends ActiveController
 {
-    /**
-     * {@inheritdoc}
-     */
+    public $modelClass='app\models\Schedule';
+
+    /* Declare actions supported by APIs (Added in api/modules/v1/components/controller.php too) */
+    public function actions(){
+        $actions = parent::actions();
+        unset($actions['create']);
+        unset($actions['update']);
+        //   unset($actions['delete']);
+        //   unset($actions['view']);
+        //   unset($actions['index']);
+        return $actions;
+    }
+
+
+
+
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
+            [
+                'class' => 'yii\filters\ContentNegotiator',
+                'only' => ['index', 'view', 'create', 'update', 'search'],
+                'formats' => ['application/json' => Response::FORMAT_JSON,],
+
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'index' => ['get'],
+                    'view' => ['get'],
+                    'create' => ['post'],
+                    'update' => ['put'],
+                    'delete' => ['delete'],
+                    'deleteall' => ['post'],
+                    'search' => ['get'],
                 ],
+
             ],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
-        ];
-    }
+
+/*
 
     public function actionIndex()
     {
@@ -72,7 +74,7 @@ class ScheduleController extends ActiveController
         return $items;
 
     }
-
+*/
 
     public function actionCreate()
     {
@@ -141,6 +143,7 @@ class ScheduleController extends ActiveController
             return ["fail"];
         }
     }
+
 
     public function actionGetdays($id)
     {
