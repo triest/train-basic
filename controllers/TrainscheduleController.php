@@ -19,9 +19,9 @@ use yii\filters\VerbFilter;
 /**
  * TrainscheduleController implements the CRUD actions for TrainSchedule model.
  */
-class TrainscheduleController  extends ActiveController
+class TrainscheduleController extends ActiveController
 {
-    public $modelClass='app\models\TrainSchedule';
+    public $modelClass = 'app\models\TrainSchedule';
 
     public function actions()
     {
@@ -30,6 +30,7 @@ class TrainscheduleController  extends ActiveController
         unset($actions['delete']);
         unset($actions['view']);
         unset($actions['index']);
+
         return $actions;
     }
 
@@ -82,6 +83,7 @@ class TrainscheduleController  extends ActiveController
 	                      ");
         $result = $command->queryAll();
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
         return $result;
 
         return $stations;
@@ -100,108 +102,101 @@ class TrainscheduleController  extends ActiveController
 
     }
 
-    /**
-     * Creates a new TrainSchedule model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     *
-     * @return mixed
-     */
     public function actionCreate()
     {
-        $model = new TrainSchedule();
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $request = Yii::$app->request;
-        $post = $request->post();
 
-
-        if ($model->load($request->post()) && $model->save()) {
-
-            $temp = $request->post("departure_station");
-
-            $temp = Station::find()->where(['=', 'id', $temp])->one();
+        if ($request->isPost) {
+            $model = new TrainSchedule();
+            $post = $request->post();
+            $model->departut_time = $post["despatchtime"];
+            $model->arrival_time = $post["arrivaltime"];
+            $name = $post["name"];
+            $model->name = $name;
+            $temp = Station::find()->where(['=', 'id', $post["departute_station"]])->one();
             $model->saveDepartion($temp);
             $temp = $request->post("arrival_station");
             $temp = Station::find()->where(['=', 'id', $temp])->one();
             $model->saveArrived($temp);
             $temp = $request->post("transportCompyny");
             $temp = Company::find()->where(['=', 'id', $temp])->one();
+            $model->ticket_price = $post["price"];
             $model->saveCompany($temp);
+            $model->save();
 
-            return $this->redirect(['view', 'id' => $model->id]);
+            /* $model->name = $request->name;
+              $model->save(false);
+              $temp = $request->post("departure_station");
+              $temp = Station::find()->where(['=', 'id', $temp])->one();*/
+
+
+            return ["ok"];
         }
 
-        $Station = ArrayHelper::map(Station::find()->all(), 'id', 'name');
-        $Compynyes = ArrayHelper::map(Company::find()->all(), 'id', 'name');
-        $Schedule = ArrayHelper::map(Schedule::find()->all(), 'id', 'days');
-
-        return $this->render('create', [
-            'model' => $model,
-            'departuteStation' => $Station,
-            'arrivalStation' => $Station,
-            'transportCompyny' => $Compynyes,
-            'Schedule' => $Schedule,
-
-        ]);
+        return ["ok"];
     }
 
-    /**
-     * Updates an existing TrainSchedule model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     *
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
+    public function actionUpdate()
     {
-        $model = $this->findModel($id);
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $request = Yii::$app->request;
+        $post = $request->post();
+        $model = TrainSchedule::find()->where(['=', 'id', $post["id"]])->one();
+        if ($request->isPost && $model != null) {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $model->name = $post["name"];
+            $model->departute_station_id = $post["departute_station_id"];
+            $model->arrival_station_id = $post["arrival_station_id"];
+            $model->departut_time = $post["departut_time"];
+            $model->arrival_time = $post["arrival_time"];
+            $model->save();
 
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return ["ok"];
+        } else {
+            return ["not post"];
         }
-
-        $Station = ArrayHelper::map(Station::find()->all(), 'id', 'name');
-        $Compynyes = ArrayHelper::map(Company::find()->all(), 'id', 'name');
-        $Schedule = ArrayHelper::map(Schedule::find()->all(), 'id', 'days');
-
-        return $this->render('update', [
-            'model' => $model,
-            'departuteStation' => $Station,
-            'arrivalStation' => $Station,
-            'transportCompyny' => $Compynyes,
-            'Schedule' => $Schedule,
-        ]);
     }
 
-    /**
-     * Deletes an existing TrainSchedule model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     *
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+
+    public function actionGetcompany()
+    {
+        $transporters = Company::find()->all();
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        return $transporters;
+    }
+
+
+    public function actionGetstations()
+    {
+        $stations = Station::find()->all();
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        return $stations;
+    }
+
+    public function actionGettransporters()
+    {
+        $transporters = Company::find()->all();
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        return $transporters;
+    }
+
+
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
-    }
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-    /**
-     * Finds the TrainSchedule model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     *
-     * @param integer $id
-     * @return TrainSchedule the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = TrainSchedule::findOne($id)) !== null) {
-            return $model;
+        $trainSchedule = TrainSchedule::find()->where(['=', 'id', $id])->one();
+        if ($trainSchedule != null) {
+            $trainSchedule->delete();
+
+            return ["ok"];
+        } else {
+            return ["fail"];
         }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

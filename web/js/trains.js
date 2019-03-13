@@ -60,7 +60,7 @@ new Vue({
         },
         createWindow: function () {
             //получаем станции:
-            axios.get('/api/getstations', {})
+            axios.get('/trainschedule/getstations', {})
                 .then(response => {
                     //  console.log(response.data)
                     this.departute_station = response.data;
@@ -68,7 +68,7 @@ new Vue({
                 .catch(error => {
 
                 });
-            axios.get('/api/gettransporters', {})
+            axios.get('/trainschedule/gettransporters', {})
                 .then(response => {
                     //  console.log(response.data)
                     this.transporters = response.data;
@@ -81,11 +81,7 @@ new Vue({
         },
 
         save: function () {
-            console.log(this.name);
-            console.log(this.selected_departute_station);
-            console.log(this.selected_arrival_station);
-            console.log(this.selected_transporters);
-            console.log(this.input_price);
+
             $("#create-modal").modal('hide');
             // тправляе post запрос
             var data = new FormData();
