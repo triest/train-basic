@@ -19,17 +19,12 @@ new Vue({
                 });
         },
         deleteWindow: function (id) {
-            console.log(id);
+
             this.delete_id = id;
             $("#del-modal").modal('show');
         },
         confurmDelete: function () {
-            axios.get('/station/delete', {
-                    params:
-                        {
-                            id: this.delete_id
-                        }
-                }
+            axios.delete('/stations/' + this.delete_id
             )
                 .then(
                     response => {
@@ -88,13 +83,13 @@ new Vue({
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
 
-            axios.post('/station/update',
-                data,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }
+            axios.patch('/stations/' + this.id,
+                data
+                /*  {
+                      headers: {
+                          'Content-Type': 'multipart/form-data'
+                      }
+                  }*/
             )
                 .then(res => {
 

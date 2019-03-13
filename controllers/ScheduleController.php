@@ -19,7 +19,7 @@ use app\models\ContactForm;
 use app\models\TrainSchedule;
 use yii\rest\ActiveController;
 
-class ScheduleController extends Controller
+class ScheduleController extends ActiveController
 {
     /**
      * {@inheritdoc}

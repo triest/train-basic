@@ -19,60 +19,18 @@ use yii\rest\ActiveController;
 
 class StationController extends ActiveController
 {
-    public $modelClass='app\models\Station';
+    public $modelClass = 'app\models\Station';
 
     public function actions()
     {
         $actions = parent::actions();
+        //  unset($actions['index']);
+        unset($actions['create']);
+      //  unset($actions['delete']);
         unset($actions['update']);
-        unset($actions['delete']);
-        unset($actions['view']);
-        unset($actions['index']);
+   //     unset($actions['view']);
+
         return $actions;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
-
-
-
-    public function actionIndex()
-    {
-        $stations = Station::find()->all();
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        return $stations;
-
-    }
-
-
-    public function actionView($id){
-        $stations = Station::find()->where(['id'=>$id])->one();
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return $stations;
     }
 
     public function actionCreate()
@@ -101,11 +59,12 @@ class StationController extends ActiveController
 
     public function actionUpdate()
     {
+
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $request = Yii::$app->request;
         $post = $request->post();
 
-        $model = Station::find()->where(['=', 'id', $post["id"]])->one();
+        $model = Station::find()->where(['=', 'id', $id])->one();
         if ($request->isPost && $model != null) {
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             $model->name = $post["name"];
@@ -117,31 +76,29 @@ class StationController extends ActiveController
         return ["fail"];
     }
 
+    /*
+        public function actionDelete($id)
+        {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+            $item = Station::find()->where(['=', 'id', $id])->one();
+            if ($item != null) {
+                //check TrainShedule
+                $trainShedule = TrainSchedule::find()
+                    ->where(['=', 'arrival_station_id', $id])
+                    ->orWhere(['=', 'departute_station_id', $id])->one();
+                if ($trainShedule == null) {
+                    $item->delete();
+                } else {
+                    return ["has relation"];
+                }
 
 
-    public function actionDelete($id)
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        $item = Station::find()->where(['=', 'id', $id])->one();
-        if ($item != null) {
-            //check TrainShedule
-            $trainShedule=TrainSchedule::find()
-                ->where(['=','arrival_station_id',$id])
-                ->orWhere(['=','departute_station_id',$id])->one();
-            if ($trainShedule==null){
-                $item->delete();
+                return ["ok"];
+            } else {
+                return ["fail"];
             }
-            else{
-                return ["has relation"];
-            }
-
-
-            return ["ok"];
-        } else {
-            return ["fail"];
         }
-    }
-
+    */
 
 }
