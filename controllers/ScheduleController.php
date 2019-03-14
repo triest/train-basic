@@ -107,24 +107,22 @@ class ScheduleController extends ActiveController
         $request = Yii::$app->request;
         $id = $request->get('id');
         $name = $request->get('name');
+        $days = $request->get('days');
         $model = Schedule::find()->where(['=', 'id', $id])->one();
         if ($request->isPut && $model != null) {
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             $model->name = $name;
-            /* $days = $post["days"];
-             $model->deleteAllDays();  //очияашем текущие установленные дни для этого экзмпляра
-             $days = explode(',', $days);
-             foreach ($days as $day) {
-                 $item = Day::find()->where(['=', 'id', intval($day)])->one();
-                 if ($item != null) {
-                     $model->saveDay($item);
-                 }
-             }*/
-
+            $model->deleteAllDays();  //очияашем текущие установленные дни для этого экзмпляра
+            $days = explode(',', $days);//парсим
+            foreach ($days as $day) {
+                $item = Day::find()->where(['=', 'id', intval($day)])->one();
+                if ($item != null) {
+                    $model->saveDay($item);
+                }
+            }
             $model->save();
 
-
-            //  return ["ok"];
+            return ["ok"];
         }
 
         return ["fail"];

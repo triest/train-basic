@@ -178,14 +178,14 @@ new Vue({
             window.axios.defaults.headers.common = {
                 'X-Requested-With': 'XMLHttpRequest',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            };
-            axios.put('/schedules' + this.id + '?name=' + this.name
-                /*   data,
-                   {
-                       headers: {
-                           'Content-Type': 'multipart/form-data'
-                       }
-                   }*/
+            }
+            axios.put('/schedules/' + this.id + '?name=' + this.name + '&days=' + this.form,
+                data,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
             )
                 .then(res => {
 
