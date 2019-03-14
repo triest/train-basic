@@ -74,7 +74,7 @@ $this->title = 'Company';
                 </div>
             </div>
 
-            <button class="btn-primary" v-on:click="createWindow()">Созать станцию</button>
+            <button class="btn-primary" v-on:click="createWindow()">Созать компанию</button>
 
             <div class="row">
                 <table class="table table-condensed">

@@ -86,7 +86,7 @@ class StationController extends ActiveController
     }
 
 
-    public function actionUpdate($id, $name)
+    public function actionUpdate()
     {
         $request = Yii::$app->request;
         $id = $request->get('id');
@@ -96,10 +96,8 @@ class StationController extends ActiveController
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             $model->name = $name;
             $model->save();
-
             return ["ok"];
         }
-
         return ["fail"];
     }
 

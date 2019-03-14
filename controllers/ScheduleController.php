@@ -21,10 +21,11 @@ use yii\rest\ActiveController;
 
 class ScheduleController extends ActiveController
 {
-    public $modelClass='app\models\Schedule';
+    public $modelClass = 'app\models\Schedule';
 
     /* Declare actions supported by APIs (Added in api/modules/v1/components/controller.php too) */
-    public function actions(){
+    public function actions()
+    {
         $actions = parent::actions();
         unset($actions['create']);
         unset($actions['update']);
@@ -33,8 +34,6 @@ class ScheduleController extends ActiveController
         //   unset($actions['index']);
         return $actions;
     }
-
-
 
 
     public function behaviors()
@@ -63,18 +62,18 @@ class ScheduleController extends ActiveController
     }
 
 
-/*
+    /*
 
-    public function actionIndex()
-    {
-        $items = Schedule::find()->all();
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        public function actionIndex()
+        {
+            $items = Schedule::find()->all();
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
 
-        return $items;
+            return $items;
 
-    }
-*/
+        }
+    */
 
     public function actionCreate()
     {
@@ -105,26 +104,27 @@ class ScheduleController extends ActiveController
 
     public function actionUpdate()
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $request = Yii::$app->request;
-        $post = $request->post();
-        $model = Schedule::find()->where(['=', 'id', $post["id"]])->one();
-        if ($request->isPost && $model != null) {
+        $id = $request->get('id');
+        $name = $request->get('name');
+        $model = Schedule::find()->where(['=', 'id', $id])->one();
+        if ($request->isPut && $model != null) {
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            $model->name = $post["name"];
-            $days = $post["days"];
-            $model->deleteAllDays();  //очияашем текущие установленные дни для этого экзмпляра
-            $days = explode(',', $days);
-            foreach ($days as $day) {
-                $item = Day::find()->where(['=', 'id', intval($day)])->one();
-                if ($item != null) {
-                    $model->saveDay($item);
-                }
-            }
+            $model->name = $name;
+            /* $days = $post["days"];
+             $model->deleteAllDays();  //очияашем текущие установленные дни для этого экзмпляра
+             $days = explode(',', $days);
+             foreach ($days as $day) {
+                 $item = Day::find()->where(['=', 'id', intval($day)])->one();
+                 if ($item != null) {
+                     $model->saveDay($item);
+                 }
+             }*/
 
             $model->save();
 
-            return ["ok"];
+
+            //  return ["ok"];
         }
 
         return ["fail"];

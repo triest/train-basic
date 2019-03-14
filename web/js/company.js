@@ -81,8 +81,7 @@ new Vue({
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             };
 
-            axios.post('/company/update',
-                data,
+            axios.put('/companies/'+this.id+'?name='+this.name,
                 {
                     headers: {
                         'Content-Type': 'multipart/form-data'
@@ -94,7 +93,7 @@ new Vue({
                 })
                 .catch(error => {
 
-                })
+                });
             this.get();
             $("#edit-modal").modal('hide');
         }

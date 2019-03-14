@@ -5,6 +5,7 @@ namespace app\modules\admin\controllers;
 use Yii;
 use app\models\Schedule;
 use app\models\ScheduleSearch;
+use yii\rest\ActiveController;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -12,25 +13,53 @@ use yii\filters\VerbFilter;
 /**
  * ScheduleController implements the CRUD actions for Schedule model.
  */
-class ScheduleController extends Controller
+class ScheduleController extends ActiveController
 {
-    /**
-     * {@inheritdoc}
-     */
+    public $modelClass = 'app\models\Schedule';
+
+    public function actions()
+    {
+        $actions = parent::actions();
+        //  unset($actions['index']);
+        unset($actions['create']);
+        //  unset($actions['delete']);
+        unset($actions['update']);
+
+        //     unset($actions['view']);
+
+        return $actions;
+    }
+
     public function behaviors()
     {
         return [
+            [
+                'class' => 'yii\filters\ContentNegotiator',
+                'only' => ['index', 'view', 'create', 'update', 'search'],
+                'formats' => ['application/json' => Response::FORMAT_JSON,],
+
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'index' => ['get'],
+                    'view' => ['get'],
+                    'create' => ['post'],
+                    'update' => ['patch', 'put'],
+
+                    'delete' => ['delete'],
+                    'deleteall' => ['post'],
+                    'search' => ['get'],
                 ],
+
             ],
         ];
     }
 
+
     /**
      * Lists all Schedule models.
+     *
      * @return mixed
      */
     public function actionIndex()
@@ -46,6 +75,7 @@ class ScheduleController extends Controller
 
     /**
      * Displays a single Schedule model.
+     *
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -60,6 +90,7 @@ class ScheduleController extends Controller
     /**
      * Creates a new Schedule model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     *
      * @return mixed
      */
     public function actionCreate()
@@ -78,6 +109,7 @@ class ScheduleController extends Controller
     /**
      * Updates an existing Schedule model.
      * If update is successful, the browser will be redirected to the 'view' page.
+     *
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -98,30 +130,32 @@ class ScheduleController extends Controller
     /**
      * Deletes an existing Schedule model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
+     *
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-        return $this->redirect(['index']);
-    }
+        $item = Company::find()->where(['=', 'id', $id])->one();
+        if ($item != null) {
+            $trainShedule = TrainSchedule::find()
+                ->where(['=', 'transport_company_id', $id])
+                ->one();
+            if ($trainShedule == null) {
+                //   $item->delete();
+                return ["ok"];
+            } else {
+                return ["has relation"];
+            }
 
-    /**
-     * Finds the Schedule model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Schedule the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Schedule::findOne($id)) !== null) {
-            return $model;
+
+        } else {
+            return ["fail"];
         }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+
 }

@@ -17,23 +17,22 @@ use app\models\ContactForm;
 use app\models\TrainSchedule;
 use yii\rest\ActiveController;
 
-class CompanyController  extends ActiveController
+class CompanyController extends ActiveController
 {
-    public $modelClass='app\models\Company';
+    public $modelClass = 'app\models\Company';
 
-    /* Declare actions supported by APIs (Added in api/modules/v1/components/controller.php too) */
-    public function actions(){
+    public function actions()
+    {
         $actions = parent::actions();
+        //  unset($actions['index']);
         unset($actions['create']);
+        //  unset($actions['delete']);
         unset($actions['update']);
-     //   unset($actions['delete']);
-     //   unset($actions['view']);
-     //   unset($actions['index']);
+
+        //     unset($actions['view']);
+
         return $actions;
     }
-
-
-
 
     public function behaviors()
     {
@@ -50,7 +49,8 @@ class CompanyController  extends ActiveController
                     'index' => ['get'],
                     'view' => ['get'],
                     'create' => ['post'],
-                    'update' => ['put'],
+                    'update' => ['patch', 'put'],
+
                     'delete' => ['delete'],
                     'deleteall' => ['post'],
                     'search' => ['get'],
@@ -61,23 +61,13 @@ class CompanyController  extends ActiveController
     }
 
 
-
-    public function actionIndex()
+    public function actionView($id)
     {
-        $items = Company::find()->all();
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        return $items;
-
-    }
-
-    public function actionView($id){
         $items = Company::find()->where(['id' => $id])->one();
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
         return $items;
     }
-
-
 
 
     public function actionCreate()
@@ -106,14 +96,13 @@ class CompanyController  extends ActiveController
 
     public function actionUpdate()
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $request = Yii::$app->request;
-        $post = $request->post();
-
-        $model = Company::find()->where(['=', 'id', $post["id"]])->one();
-        if ($request->isPost && $model != null) {
+        $id = $request->get('id');
+        $name = $request->get('name');
+        $model = Company::find()->where(['=', 'id', $id])->one();
+        if ($request->isPut && $model != null) {
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            $model->name = $post["name"];
+            $model->name = $name;
             $model->save();
 
             return ["ok"];
@@ -132,7 +121,7 @@ class CompanyController  extends ActiveController
                 ->where(['=', 'transport_company_id', $id])
                 ->one();
             if ($trainShedule == null) {
-             //   $item->delete();
+                //   $item->delete();
                 return ["ok"];
             } else {
                 return ["has relation"];
