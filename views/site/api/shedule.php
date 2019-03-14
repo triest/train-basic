@@ -21,7 +21,7 @@ $this->title = 'Schedule';
                         <div class="modal-body">
                             <b>Удалить расписаниеЫ?</b>
                         </div>
-                        <button type="button" class="btn btn-secondary" v-on:click="confurmDelete">Yes</button>
+                        <button type="button" class="btn btn-danger" v-on:click="confurmDelete">Yes</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
 
                     </div>
@@ -63,7 +63,7 @@ $this->title = 'Schedule';
                             <input type="checkbox" id="Saturday" value="sanday" v-model="checkedDays">
                             <label for="Sanday">Sanday</label>
                             <br>
-                            <button type="button" class="btn btn-secondary" v-on:click="save">Создать</button>
+                            <button type="button" class="btn btn-primary" v-on:click="save">Создать</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
                         </div>
 
@@ -91,29 +91,8 @@ $this->title = 'Schedule';
                                     <span>{{ module.name }}</span>
                                 </label>
                             </li>
-                            <!--    <input type="checkbox" id="Mondey" value="1" v-model="checkedDays" :checked="">
-                                <label for="Mondey">Mondey</label>
-                                <br>
-                                <input type="checkbox" id="Tuesday" value="2" v-model="checkedDays">
-                                <label for="Tuesday">Tuesday</label>
-                                <br>
-                                <input type="checkbox" id="Wednesday" value="3" v-model="checkedDays">
-                                <label for="Wednesday">Wednesday</label>
-                                <br>
-                                <input type="checkbox" id="Thursday" value="4" v-model="checkedDays">
-                                <label for="Thursday">Thursday</label>
-                                <br>
-                                <input type="checkbox" id="Friday" value="5" v-model="checkedDays">
-                                <label for="Friday">Friday</label>
-                                <br>
-                                <input type="checkbox" id="Saturday" value="6" v-model="checkedDays">
-                                <label for="Saturday">Saturday</label>
-                                <br>
-                                <input type="checkbox" id="Saturday" value="7" v-model="checkedDays">
-                                <label for="Sanday">Sanday</label>
-                                -->
                             <br>
-                            <button type="button" class="btn btn-secondary" v-on:click="edit">Создать</button>
+                            <button type="button" class="btn btn-primary" v-on:click="edit">Создать</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
                         </div>
 

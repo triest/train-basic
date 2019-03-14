@@ -20,7 +20,7 @@ $this->title = 'Trains';
                         </div>
                         <div class="modal-body">
                             <b>Удалить из расписания?</b>
-                            <button type="button" class="btn btn-secondary" v-on:click="confurmDelete">Yes</button>
+                            <button type="button" class="btn btn-primary" v-on:click="confurmDelete">Yes</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                         </div>
 
@@ -70,7 +70,7 @@ $this->title = 'Trains';
                             <input type="time" v-model="despatchtime">
                             <label>Время прибытия</label>
                             <input type="time" v-model="arrivaltime">
-                            <button type="button" class="btn btn-secondary" v-on:click="save">Создать</button>
+                            <button type="button" class="btn btn-primary" v-on:click="save">Создать</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
                         </div>
 

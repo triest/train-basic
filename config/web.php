@@ -81,7 +81,7 @@ $config = [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'Schedule',
+                    'controller' => 'schedule',
                     'extraPatterns' => [
                         'POST' => 'create', // 'xxxxx' refers to 'actionXxxxx'
                         'POST {id}' => 'update',

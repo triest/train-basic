@@ -112,7 +112,7 @@ new Vue({
                 })
                 .catch(error => {
 
-                })
+                });
             this.get();
         },
         edit: function () {

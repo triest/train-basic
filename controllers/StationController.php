@@ -49,7 +49,8 @@ class StationController extends ActiveController
                     'index' => ['get'],
                     'view' => ['get'],
                     'create' => ['post'],
-                    'update' => ['patch'],
+                    'update' => ['patch', 'put'],
+
                     'delete' => ['delete'],
                     'deleteall' => ['post'],
                     'search' => ['get'],
@@ -85,24 +86,15 @@ class StationController extends ActiveController
     }
 
 
-    public function actionUpdate($id)
+    public function actionUpdate($id, $name)
     {
-
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        //   $request = Yii::$app->request;
-        $put = Yii::$app->request->getParams();
-        //   $put=Yii::$app->request->getBodyParams();
-        dump($put);
-        // $name = $put["name"];
-        // dump($name);
-        die();
-        //    $name = $put["name"];
-        dump($name);
+        $request = Yii::$app->request;
+        $id = $request->get('id');
+        $name = $request->get('name');
         $model = Station::find()->where(['=', 'id', $id])->one();
         if ($request->isPut && $model != null) {
-
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            $model->name = $post["name"];
+            $model->name = $name;
             $model->save();
 
             return ["ok"];

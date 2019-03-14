@@ -21,7 +21,7 @@ $this->title = 'Stations';
                         <div class="modal-body">
                             <b>Удалить станцию?</b>
                         </div>
-                        <button type="button" class="btn btn-secondary" v-on:click="confurmDelete">Yes</button>
+                        <button type="button" class="btn btn-danger" v-on:click="confurmDelete">Yes</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
 
                     </div>
@@ -43,7 +43,7 @@ $this->title = 'Stations';
                             <input type="text" v-model="name" name="text">
                             <br>
 
-                            <button type="button" class="btn btn-secondary" v-on:click="save">Создать</button>
+                            <button type="button" class="btn btn-primary" v-on:click="save">Создать</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
                         </div>
 
@@ -65,7 +65,7 @@ $this->title = 'Stations';
                             <input type="text" v-model="name" name="text">
                             <br>
 
-                            <button type="button" class="btn btn-secondary" v-on:click="edit">Создать</button>
+                            <button type="button" class="btn btn-primary" v-on:click="edit">Создать</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
                         </div>
 

@@ -83,21 +83,13 @@ new Vue({
                 )
         },
         deleteWindow: function (id) {
-            console.log(id),
-                this.delete_id = id;
+            this.delete_id = id;
             $("#del-modal").modal('show');
         },
         confurmDelete: function () {
-            console.log(this.delete_id)
             var data = new FormData();
             data.append('del', this.id);
-            axios.get('/schedule/delete', {
-                    params:
-                        {
-                            id: this.delete_id
-                        }
-                }
-            )
+            axios.delete('/schedules/' + this.delete_id)
                 .then(res => {
 
                 })

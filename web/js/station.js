@@ -75,13 +75,12 @@ new Vue({
 
         edit: function () {
             var data = new FormData();
-            data.append('id', this.id);
             data.append('name', this.name);
-
-               window.axios.defaults.headers.common = {
-                   'X-Requested-With': 'XMLHttpRequest',
-                   'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-               }
+            //var strngObj = JSON.stringify(data);
+            /*  window.axios.defaults.headers.common = {
+                  'X-Requested-With': 'XMLHttpRequest',
+                  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+              }*/
 
             /*   axios.put('/stations/' + this.id,
                   // data
@@ -93,12 +92,26 @@ new Vue({
                    .catch(error => {
 
                    })*/
-            axios.put('/stations/' + this.id, data)
-                .success(function () {
-                    console.log("success")
-                }).error(
-                console.log("error")
-            );
+            axios.put('/stations/' + this.id+'?name='+this.name, {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+                .then(res => {
+
+                })
+                .catch(error => {
+
+                })
+            /*      axios({
+                      url: '/stations/' + this.id,    //Your api url
+                      type: 'PUT',   //type is any HTTP method
+                      data: {
+                          data: data
+                      },      //Data as js object
+                      success: function () {
+                      }
+                  });*/
             this.get();
             $("#edit-modal").modal('hide');
         }
