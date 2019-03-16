@@ -80,16 +80,16 @@ class CompanyController extends ActiveController
             $name = $request["name"];
             $station = Company::find()->where(['=', 'id', $name])->one();
             if ($station != null) {
-                return ["alredy"];
+                return Yii::$app->response->statusCode = 409;
             } else {
                 $station = new Company();
                 $station->name = $name;
                 $station->save();
 
-                return ["ok"];
+                return Yii::$app->response->statusCode = 200;
             }
         } else {
-            return ["postonly"];
+            return Yii::$app->response->statusCode = 405;
         }
     }
 
@@ -105,10 +105,10 @@ class CompanyController extends ActiveController
             $model->name = $name;
             $model->save();
 
-            return ["ok"];
+            return Yii::$app->response->statusCode = 200;
         }
 
-        return ["fail"];
+        return Yii::$app->response->statusCode = 404;
     }
 
     public function actionDelete($id)
@@ -122,14 +122,14 @@ class CompanyController extends ActiveController
                 ->one();
             if ($trainShedule == null) {
                 //   $item->delete();
-                return ["ok"];
+                return Yii::$app->response->statusCode = 200;
             } else {
-                return ["has relation"];
+                return Yii::$app->response->statusCode = 409;
             }
 
 
         } else {
-            return ["fail"];
+            return Yii::$app->response->statusCode = 404;
         }
     }
 

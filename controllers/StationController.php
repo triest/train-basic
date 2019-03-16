@@ -2,18 +2,12 @@
 
 namespace app\controllers;
 
-use app\models\Company;
-use app\models\Schedule;
+
 use app\models\Station;
 use Yii;
-use yii\db\Query;
-use yii\filters\AccessControl;
-use yii\web\Controller;
+
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
-
 use app\models\TrainSchedule;
 use yii\rest\ActiveController;
 
@@ -60,6 +54,9 @@ class StationController extends ActiveController
         ];
     }
 
+    /**
+     * @return array
+     */
     public function actionCreate()
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -70,22 +67,25 @@ class StationController extends ActiveController
             $name = $request["name"];
             $station = Station::find()->where(['=', 'id', $name])->one();
             if ($station != null) {
-                return ["alredy"];
+                return Yii::$app->response->statusCode = 409;
             } elseif ($name == null) {
-                return ["fail"];
+                return Yii::$app->response->statusCode = 404;
             } else {
                 $station = new Station();
                 $station->name = $name;
                 $station->save();
 
-                return ["ok"];
+                return Yii::$app->response->statusCode = 201;
             }
         } else {
-            return ["postonly"];
+            return Yii::$app->response->statusCode = 205;
         }
     }
 
 
+    /**
+     * @return array
+     */
     public function actionUpdate()
     {
         $request = Yii::$app->request;
@@ -96,11 +96,16 @@ class StationController extends ActiveController
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             $model->name = $name;
             $model->save();
-            return ["ok"];
+           return Yii::$app->response->statusCode = 200;
+        } else {
+           return Yii::$app->response->statusCode = 404;
         }
-        return ["fail"];
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
     public function actionDelete($id)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -112,14 +117,14 @@ class StationController extends ActiveController
                 ->one();
             if ($trainShedule == null) {
                 //   $item->delete();
-                return ["ok"];
+                return Yii::$app->response->statusCode = 200;
             } else {
-                return ["has relation"];
+                return Yii::$app->response->statusCode = 203;
             }
 
 
         } else {
-            return ["fail"];
+            return Yii::$app->response->statusCode = 404;
         }
     }
 

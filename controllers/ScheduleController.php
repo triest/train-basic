@@ -61,20 +61,6 @@ class ScheduleController extends ActiveController
         ];
     }
 
-
-    /*
-
-        public function actionIndex()
-        {
-            $items = Schedule::find()->all();
-            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-
-            return $items;
-
-        }
-    */
-
     public function actionCreate()
     {
 
@@ -95,6 +81,7 @@ class ScheduleController extends ActiveController
                     $shedule->saveDay($day);
                 }
             }
+            return Yii::$app->response->statusCode = 200;
 
 
         }
@@ -121,11 +108,9 @@ class ScheduleController extends ActiveController
                 }
             }
             $model->save();
-
-            return ["ok"];
+            return Yii::$app->response->statusCode = 200;
         }
-
-        return ["fail"];
+        return Yii::$app->response->statusCode = 404;
     }
 
     public function actionDelete($id)
@@ -135,10 +120,9 @@ class ScheduleController extends ActiveController
         $trainSchedule = Schedule::find()->where(['=', 'id', $id])->one();
         if ($trainSchedule != null) {
             $trainSchedule->delete();
-
-            return ["ok"];
+            return Yii::$app->response->statusCode = 200;
         } else {
-            return ["fail"];
+            return Yii::$app->response->statusCode = 404;
         }
     }
 
@@ -158,7 +142,7 @@ class ScheduleController extends ActiveController
 
             return $days2;
         } else {
-            return null;
+            return Yii::$app->response->statusCode = 404;
         }
     }
 

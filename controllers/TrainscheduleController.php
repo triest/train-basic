@@ -86,8 +86,6 @@ class TrainscheduleController extends ActiveController
 
         return $result;
 
-        return $stations;
-
     }
 
     /**
@@ -125,16 +123,10 @@ class TrainscheduleController extends ActiveController
             $model->saveCompany($temp);
             $model->save();
 
-            /* $model->name = $request->name;
-              $model->save(false);
-              $temp = $request->post("departure_station");
-              $temp = Station::find()->where(['=', 'id', $temp])->one();*/
-
-
-            return ["ok"];
+            return ["200"];
         }
 
-        return ["ok"];
+        return ["404"];
     }
 
     public function actionUpdate()
@@ -152,9 +144,9 @@ class TrainscheduleController extends ActiveController
             $model->arrival_time = $post["arrival_time"];
             $model->save();
 
-            return ["ok"];
+            return Yii::$app->response->statusCode = 200;
         } else {
-            return ["not post"];
+            return Yii::$app->response->statusCode = 409;
         }
     }
 
@@ -194,9 +186,9 @@ class TrainscheduleController extends ActiveController
         if ($trainSchedule != null) {
             $trainSchedule->delete();
 
-            return ["ok"];
+            return Yii::$app->response->statusCode = 200;
         } else {
-            return ["fail"];
+            return Yii::$app->response->statusCode = 404;
         }
     }
 }
